@@ -1,4 +1,4 @@
-<!-- v3.1 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,88 +22,105 @@
   <div id="score">Score: 0.0</div>
   <div id="quiz"></div>
   <script>
-    let questions = [], currentQueue = [], retryQueue = [], currentIndex = 0, score = 0;
-    function updateScore() {
-      document.getElementById('score').textContent = 'Score: ' + score.toFixed(1);
-    }
-    function loadQuestions() {
-      fetch('questions.csv').then(r => r.text()).then(text => {
-        const lines = text.trim().split('\n');
+    // Load questions
+    fetch('questions.csv')
+      .then(res => res.text())
+      .then(csv => {
+        const lines = csv.trim().split('\n');
         const headers = lines[0].split(',');
-        questions = lines.slice(1).map(line => {
+        const data = lines.slice(1).map(line => {
           const cols = line.split(',');
-          let q = {};
-          headers.forEach((h,i) => q[h.trim()] = cols[i]?.trim());
-          return q;
-        }).filter(q=>q.type && q.question);
-        currentQueue = [...questions];
-        showQuestion();
+          let obj = {};
+          headers.forEach((h,i) => obj[h.trim()] = cols[i]?.trim());
+          return obj;
+        }).filter(q => q.type && q.question).map(q => ({...q, attempt:0}));
+        startQuiz(data);
       });
-    }
-    function showQuestion() {
-      const container = document.getElementById('quiz');
-      container.innerHTML = '';
-      if (currentQueue.length === 0) {
-        if (retryQueue.length > 0) {
-          currentQueue = [...retryQueue]; retryQueue = []; currentIndex = 0;
-        } else {
-          container.innerHTML = '<h3>Quiz Complete</h3><p>Final Score: ' + score.toFixed(1) + '</p>';
+
+    function startQuiz(questions) {
+      let score = 0;
+      let queue = shuffle(questions.slice());
+      let quizDiv = document.getElementById('quiz');
+      let scoreDiv = document.getElementById('score');
+
+      function updateScore() {
+        scoreDiv.textContent = 'Score: ' + score.toFixed(1);
+      }
+
+      function next() {
+        if (queue.length === 0) {
+          quizDiv.innerHTML = '<h3>Quiz Complete</h3><p>Final Score: ' + score.toFixed(1) + '</p>';
           return;
         }
-      }
-      const q = currentQueue[currentIndex];
-      const div = document.createElement('div'); div.className = 'question';
-      div.innerHTML = '<p><strong>Q'+(currentIndex+1)+':</strong> '+q.question+'</p>';
-      if (q.image) div.innerHTML += '<img src="'+q.image+'" alt="Image">';
-      const optionsDiv = document.createElement('div'); optionsDiv.className = 'options';
-      if (q.type === 'text') {
-        optionsDiv.innerHTML = '<input type="text" id="textAns" placeholder="Type answer">';
-      } else {
-        ['A','B','C','D','E','F','G','H'].forEach(letter => {
-          if (q[letter]) {
-            const inpType = q.type === 'checkbox' ? 'checkbox' : 'radio';
-            optionsDiv.innerHTML += '<label class="option-label"><input type="'+inpType+'" name="opt" value="'+letter+'"> '+letter+'. '+q[letter]+'</label>';
-          }
-        });
-      }
-      div.appendChild(optionsDiv);
-      const fb = document.createElement('div'); fb.className='feedback'; div.appendChild(fb);
-      const submitBtn = document.createElement('button'); submitBtn.textContent = 'Submit';
-      submitBtn.onclick = () => {
-        let userAns;
+        let q = queue.shift();
+        quizDiv.innerHTML = '';
+        let div = document.createElement('div'); div.className='question';
+        div.innerHTML = '<p><strong>' + q.question + '</strong></p>';
+        if (q.image) {
+          let img = document.createElement('img'); img.src = q.image; div.appendChild(img);
+        }
+        let optsDiv = document.createElement('div'); optsDiv.className='options';
         if (q.type === 'text') {
-          userAns = document.getElementById('textAns').value.trim();
+          optsDiv.innerHTML = '<input type="text" id="ans" placeholder="Answer">';
         } else {
-          const elems = document.querySelectorAll('input[name="opt"]:checked');
-          if (elems.length === 0) return alert('Please select answer.');
-          userAns = Array.from(elems).map(e=>e.value).sort().join(',');
+          ['A','B','C','D','E','F','G','H'].forEach(letter => {
+            if (q[letter]) {
+              let input = document.createElement('input');
+              input.type = q.type === 'checkbox' ? 'checkbox' : 'radio';
+              input.name = 'opt';
+              input.value = letter;
+              let label = document.createElement('label');
+              label.className='option-label';
+              label.appendChild(input);
+              label.append(' ' + letter + '. ' + q[letter]);
+              optsDiv.appendChild(label);
+            }
+          });
         }
-        const correctArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
-        if (userAns.toUpperCase() === correctArr) {
-          const wasWrong = retryQueue.some(r=>r.question===q.question);
-          score += wasWrong ? 0.5 : 1;
-          fb.textContent = 'Correct!';
-        } else {
-          score -= 0.5;
-          fb.textContent = 'Wrong! Correct: ' + q.answer;
-          retryQueue.push(q);
-        }
-        updateScore();
-        submitBtn.disabled = true;
-        nextBtn.style.display = 'inline-block';
-      };
-      div.appendChild(submitBtn);
-      const nextBtn = document.createElement('button'); nextBtn.textContent = 'Next';
-      nextBtn.style.display = 'none';
-      nextBtn.onclick = () => {
-        currentIndex++;
-        showQuestion();
-      };
-      div.appendChild(nextBtn);
-      container.appendChild(div);
+        div.appendChild(optsDiv);
+        let fb = document.createElement('div'); fb.className='feedback'; div.appendChild(fb);
+
+        let submit = document.createElement('button'); submit.textContent='Submit';
+        submit.onclick = () => {
+          let ua;
+          if (q.type==='text') ua = document.getElementById('ans').value.trim();
+          else {
+            let sels = Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value).sort();
+            ua = sels.join(',');
+          }
+          let correct = q.answer.split(',').map(s=>s.trim()).sort().join(',');
+          if (ua.toLowerCase() === correct.toLowerCase()) {
+            score += q.attempt > 0 ? 0.5 : 1;
+            fb.textContent = 'Correct!';
+          } else {
+            score -= 0.5;
+            fb.textContent = 'Wrong! Correct: ' + q.answer;
+            q.attempt++;
+            if (q.attempt <= 2) queue.splice(Math.floor(Math.random()*queue.length),0,q);
+          }
+          updateScore();
+          submit.disabled = true;
+          nextBtn.style.display = 'inline-block';
+        };
+        div.appendChild(submit);
+
+        let nextBtn = document.createElement('button'); nextBtn.textContent='Next'; nextBtn.style.display='none';
+        nextBtn.onclick = next;
+        div.appendChild(nextBtn);
+        quizDiv.appendChild(div);
+      }
+
+      updateScore();
+      next();
     }
-    updateScore();
-    loadQuestions();
+
+    function shuffle(a) {
+      for (let i=a.length-1;i>0;i--) {
+        let j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+      }
+      return a;
+    }
   </script>
 </body>
 </html>
