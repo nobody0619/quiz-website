@@ -8,6 +8,7 @@
     body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; text-align: center; }
     #quiz-title { margin-top: 20px; font-size: 1.8em; }
     #score, #remaining { font-size: 1.2em; margin: 10px 0; }
+    #progress { width: 100%; height: 20px; }
     .question { text-align: left; margin: 20px 0; }
     .options { margin: 10px 0; text-align: left; }
     .option-label { display: block; margin: 5px 0; cursor: pointer; }
@@ -21,15 +22,15 @@
 </head>
 <body>
   <div id="quiz-title"></div>
-  <div id="score">得分: 0.0</div>
+  <div id="score">得分: 0.0 (+0.0)</div>
   <div id="remaining">剩余题目: 0</div>
+  <progress id="progress" value="0" max="0"></progress>
   <div id="quiz"></div>
   <script>
     Papa.parse('questions.csv', {
       download: true, header: true, skipEmptyLines: true,
       complete: function(results) {
-        var questions = results.data.map(q => ({...q, attempt:0}));
-        // Set title
+        var questions = results.data.map(q=>({...q, attempt:0}));
         if (questions.length && questions[0].title) {
           document.getElementById('quiz-title').textContent = questions[0].title;
         }
@@ -39,16 +40,20 @@
 
     function startQuiz(questions) {
       var score = 0, correctCount = 0, wrongCount = 0;
+      var total = questions.length;
       var queue = shuffle([...questions]);
       var quizDiv = document.getElementById('quiz'),
           scoreDiv = document.getElementById('score'),
-          remDiv = document.getElementById('remaining');
+          remDiv = document.getElementById('remaining'),
+          prog = document.getElementById('progress');
+      prog.max = total;
 
       function updateScore(delta) {
         scoreDiv.textContent = '得分: ' + score.toFixed(1) + ' (' + (delta>0?'+':'') + delta.toFixed(1) + ')';
       }
       function updateRemaining() {
         remDiv.textContent = '剩余题目: ' + queue.length;
+        prog.value = total - queue.length;
       }
 
       function nextQuestion() {
@@ -64,20 +69,20 @@
         var div = document.createElement('div'); div.className = 'question';
         div.innerHTML = '<p><strong>' + q.question + '</strong></p>';
         if (q.image) {
-          var img = document.createElement('img'); img.src = q.image; div.appendChild(img);
+          var img = document.createElement('img'); img.src=q.image; div.appendChild(img);
         }
-        var optsDiv = document.createElement('div'); optsDiv.className = 'options';
-        if (q.type === 'text') {
-          optsDiv.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案">';
+        var optsDiv = document.createElement('div'); optsDiv.className='options';
+        if (q.type==='text') {
+          optsDiv.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔多答案">';
         } else {
-          var keys = ['A','B','C','D','E','F','G','H'].filter(l => q[l]);
+          var keys = ['A','B','C','D','E','F','G','H'].filter(l=>q[l]);
           shuffle(keys);
-          keys.forEach(l => {
-            var input = document.createElement('input');
-            input.type = (q.type==='checkbox')?'checkbox':'radio';
-            input.name = 'opt'; input.value = l; input.id = 'opt_'+l;
-            var label = document.createElement('label'); label.htmlFor = 'opt_'+l;
-            label.className = 'option-label'; label.appendChild(input);
+          keys.forEach(l=>{
+            var input=document.createElement('input');
+            input.type=(q.type==='checkbox')?'checkbox':'radio';
+            input.name='opt'; input.value=l; input.id='opt_'+l;
+            var label=document.createElement('label'); label.htmlFor='opt_'+l;
+            label.className='option-label'; label.appendChild(input);
             label.append(' ' + q[l]);
             optsDiv.appendChild(label);
           });
@@ -85,41 +90,38 @@
         div.appendChild(optsDiv);
         var fb = document.createElement('div'); fb.className='feedback'; div.appendChild(fb);
 
-        var submitBtn = document.createElement('button'); submitBtn.textContent = '提交';
+        var submitBtn = document.createElement('button'); submitBtn.textContent='提交';
         submitBtn.onclick = function() {
           var userArr = [];
           if (q.type==='text') {
-            userArr = [document.getElementById('txtAns').value.trim()];
+            userArr = document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
           } else {
             userArr = Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
-            if (userArr.length===0) return alert('请选择答案');
           }
-          var ua = userArr.map(s=>s.trim().toUpperCase()).sort().join(',');
-          var ca = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
-          var delta;
-          if (ua===ca) {
-            delta = q.attempt?0.5:1; score += delta; correctCount++;
-            fb.textContent = '正确! +' + delta;
+          if (userArr.length===0) return alert('请选择或输入答案');
+          var uaArr = userArr.map(s=>s.toUpperCase()).sort();
+          var caArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort();
+          var delta=0;
+          if (q.type==='text') {
+            // text supports any one of answers
+            if (uaArr.some(v=>caArr.includes(v))) { delta = q.attempt?0.5:1; score+=delta; correctCount++; fb.textContent='正确! +' + delta; }
+            else { delta = -0.5; score+=delta; wrongCount++; fb.textContent='错误! ' + delta + ' 正确答案: ' + caArr.join(' / '); }
           } else {
-            delta = -0.5; score += delta; wrongCount++;
-            fb.textContent = '错误! ' + delta + ' 正确答案: ' + 
-              q.answer.split(',').map(x=>q[x] || x).join(', ');
-            q.attempt++;
-            for (var i=0;i<2;i++) {
-              var clone = {...q};
-              var pos = Math.floor(Math.random()*(queue.length+1));
-              queue.splice(pos,0,clone);
-            }
+            if (uaArr.length === caArr.length && uaArr.every((v,i)=>v===caArr[i])) { delta = q.attempt?0.5:1; score+=delta; correctCount++; fb.textContent='正确! +' + delta; }
+            else { delta = -0.5; score+=delta; wrongCount++; fb.textContent='错误! ' + delta + ' 正确答案: ' + caArr.map(l=>q[l]).join(' / '); }
           }
           updateScore(delta);
           updateRemaining();
-          submitBtn.disabled = true;
-          nextBtn.style.display = 'inline-block';
+          submitBtn.disabled=true; nextBtn.style.display='inline-block';
+          if (delta<0) {
+            q.attempt++;
+            for (var i=0;i<2;i++){ var clone={...q}; queue.splice(Math.floor(Math.random()*(queue.length+1)),0,clone); }
+          }
         };
         div.appendChild(submitBtn);
 
-        var nextBtn = document.createElement('button'); nextBtn.textContent = '下一题';
-        nextBtn.style.display = 'none'; nextBtn.onclick = nextQuestion; div.appendChild(nextBtn);
+        var nextBtn = document.createElement('button'); nextBtn.textContent='下一题';
+        nextBtn.style.display='none'; nextBtn.onclick=nextQuestion; div.appendChild(nextBtn);
 
         quizDiv.appendChild(div);
       }
@@ -127,13 +129,7 @@
       updateScore(0); updateRemaining(); nextQuestion();
     }
 
-    function shuffle(arr) {
-      for (var i=arr.length-1;i>0;i--) {
-        var j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]] = [arr[j],arr[i]];
-      }
-      return arr;
-    }
+    function shuffle(arr){ for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
   </script>
 </body>
 </html>
