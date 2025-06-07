@@ -1,7 +1,0 @@
-﻿title,type,question,A,B,C,D,E,F,G,H,answer,image
-纪老师魔鬼测验1,radio,中国的首都是哪个城市？ / What is the capital of China?,北京 / Beijing,上海 / Shanghai,广州 / Guangzhou,深圳 / Shenzhen,,,,,A,
-,checkbox,以下哪些是编程语言？ / Which are programming languages?,Python,HTML,JavaScript,CSS,C++,,,,"A,C,E",
-,text,Malaysia 的首都是？ / What is the capital of Malaysia?,,,,,,,,,Kuala Lumpur,
-,radio,Titanic 沉没于哪一年？ / In which year did Titanic sink?,1912,1920,1905,1918,,,,,A,
-,checkbox,请选择质数。 / Select prime numbers.,2,3,4,5,6,7,,,"A,B,D,F",
-,radio,Which animal is shown in the image?,Cat,Dog,Elephant,Tiger,,,,,C,elephant.jpg
