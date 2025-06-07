@@ -1,0 +1,122 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: auto; text-align: center; }
+    #score { font-size: 1.2em; margin: 20px 0; }
+    .question { text-align: left; margin: 20px 0; }
+    .options { margin: 10px 0; text-align: left; }
+    .option-label { display: block; margin: 5px 0; }
+    .feedback { margin: 10px 0; font-weight: bold; }
+    button { margin: 5px; padding: 10px 20px; }
+    img { max-width: 100%; height: auto; margin: 10px 0; }
+    input[type="radio"] { accent-color: blue; }
+    input[type="checkbox"] { accent-color: green; }
+    input[type="text"] { width: 100%; padding: 5px; }
+  </style>
+</head>
+<body>
+  <div id="score">Score: 0.0</div>
+  <div id="quiz"></div>
+  <script>
+    let questions = [], initialQueue = [], retryQueue = [], currentQueue = [], currentIndex = 0, score = 0;
+    function updateScore() {
+      document.getElementById('score').textContent = 'Score: ' + score.toFixed(1);
+    }
+    function loadQuestions() {
+      fetch('questions.csv').then(r => r.text()).then(text => {
+        const lines = text.trim().split('\n');
+        const headers = lines[0].split(',');
+        questions = lines.slice(1).map(line => {
+          const cols = line.split(',');
+          let q = {};
+          headers.forEach((h,i) => q[h.trim()] = cols[i]?.trim());
+          return q;
+        }).filter(q=>q.type && q.question);
+        initialQueue = questions.slice();
+        currentQueue = initialQueue.slice();
+        showQuestion();
+      });
+    }
+    function showQuestion() {
+      const container = document.getElementById('quiz');
+      container.innerHTML = '';
+      if (currentQueue.length === 0) {
+        if (retryQueue.length > 0) {
+          currentQueue = retryQueue.slice();
+          retryQueue = [];
+          currentIndex = 0;
+        } else {
+          container.innerHTML = '<h3>Quiz Complete</h3><p>Final Score: ' + score.toFixed(1) + '</p>';
+          return;
+        }
+      }
+      const q = currentQueue[currentIndex];
+      const div = document.createElement('div');
+      div.className = 'question';
+      div.innerHTML = '<p><strong>Q'+(currentIndex+1)+':</strong> '+q.question+'</p>';
+      if (q.image) {
+        div.innerHTML += '<img src="'+q.image+'" alt="Image">';
+      }
+      const optionsDiv = document.createElement('div');
+      optionsDiv.className = 'options';
+      const opts = ['A','B','C','D','E','F','G','H'];
+      opts.forEach(letter => {
+        if (q[letter]) {
+          if (q.type === 'radio') {
+            optionsDiv.innerHTML += '<label class="option-label"><input type="radio" name="opt" value="'+letter+'"> '+letter+'. '+q[letter]+'</label>';
+          } else if (q.type === 'checkbox') {
+            optionsDiv.innerHTML += '<label class="option-label"><input type="checkbox" name="opt" value="'+letter+'"> '+letter+'. '+q[letter]+'</label>';
+          } else if (q.type === 'text') {
+            optionsDiv.innerHTML = '<input type="text" id="textAns" placeholder="Type answer">';
+          }
+        }
+      });
+      div.appendChild(optionsDiv);
+      const fb = document.createElement('div'); fb.className='feedback';
+      div.appendChild(fb);
+      const submitBtn = document.createElement('button');
+      submitBtn.textContent = 'Submit';
+      submitBtn.onclick = () => {
+        let userAns;
+        if (q.type==='radio') {
+          const sel = document.querySelector('input[name="opt"]:checked');
+          if(!sel){alert('Select one');return;}
+          userAns = sel.value;
+        } else if(q.type==='checkbox') {
+          const sels = Array.from(document.querySelectorAll('input[name="opt"]:checked')).map(e=>e.value).sort();
+          if(sels.length===0){alert('Select at least one');return;}
+          userAns = sels.join(',');
+        } else {
+          userAns = document.getElementById('textAns').value.trim();
+        }
+        const correct = q.answer.trim();
+        if(userAns.toLowerCase()===correct.toLowerCase()) {
+          const retryCount = retryQueue.filter(r=>r.question===q.question).length;
+          score += retryCount?0.5:1;
+          fb.textContent='Correct!';
+        } else {
+          score -=0.5;
+          fb.textContent='Wrong! Correct: '+correct;
+          retryQueue.push(q);
+        }
+        updateScore();
+      };
+      div.appendChild(submitBtn);
+      const nextBtn = document.createElement('button');
+      nextBtn.textContent='Next';
+      nextBtn.onclick = () => {
+        currentIndex++;
+        showQuestion();
+      };
+      div.appendChild(nextBtn);
+      container.appendChild(div);
+    }
+    updateScore();
+    loadQuestions();
+  </script>
+</body>
+</html>
