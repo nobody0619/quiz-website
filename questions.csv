@@ -1,0 +1,7 @@
+title,type,question,A,B,C,D,E,F,G,H,answer,image
+???????1,radio,??????????? / What is the capital of China?,?? / Beijing,?? / Shanghai,?? / Guangzhou,?? / Shenzhen,,,,,A,
+,checkbox,?????????? / Which are programming languages?,Python,HTML,JavaScript,CSS,C++,,,,"A,C,E",
+,text,Malaysia ????? / What is the capital of Malaysia?,,,,,,,,,Kuala Lumpur,
+,radio,Titanic ??????? / In which year did Titanic sink?,1912,1920,1905,1918,,,,,A,
+,checkbox,?????? / Select prime numbers.,2,3,4,5,6,7,,,"A,B,D,F",
+,radio,Which animal is shown in the image?,Cat,Dog,Elephant,Tiger,,,,,C,elephant.jpg
