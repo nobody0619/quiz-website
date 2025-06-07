@@ -2,27 +2,30 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>章节测验系统</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; }
+    body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; font-size:18px; }
     #menu { margin:20px 0; }
-    #menu button { margin:0 5px; padding:5px 10px; }
+    #menu button { margin:0 5px; padding:10px 12px; font-size:1em; }
     #quiz-title { font-size:1.8em; margin-bottom:10px; }
     #score,#remaining { font-size:1.2em; margin:5px 0; }
-    #progress { width:100%; height:20px; }
-    .question { text-align:left; margin:20px 0; }
-    .options { text-align:left; }
+    #progress { width:100%; height:20px; margin-bottom:10px;}
+    .question { text-align:left; margin:20px 0; font-size:1em; line-height:1.4; }
+    .options { text-align:left; font-size:1em; }
     .option-label { display:block; margin:5px 0; cursor:pointer; }
-    .feedback { font-weight:bold; margin:10px 0; }
-    button { padding:8px 16px; margin:5px; }
-    img { max-width: 100%; height:auto; margin:10px 0; }
+    .feedback { font-weight:bold; margin:10px 0; font-size:1em; }
+    button { padding:8px 16px; margin:5px; font-size:1em; }
+    input[type="text"] { width:100%; padding:8px; font-size:1em; margin-top:10px; }
+    input[type="radio"], input[type="checkbox"] { transform: scale(1.2); margin-right:8px; }
+    img { max-width:100%; height:auto; margin:10px 0; }
   </style>
 </head>
 <body>
   <div id="menu">正在加载章节...</div>
   <div id="quiz-title"></div>
-  <div id="score">得分: 0.0 (+0.0)</div>
+  <div id="score">得分: 0 (+0)</div>
   <div id="remaining">剩余题目: 0</div>
   <progress id="progress" value="0" max="0"></progress>
   <div id="quiz"></div>
@@ -32,9 +35,7 @@
     let questions = [], queue = [], score = 0, correct = 0, wrong = 0, total = 0;
     let chapterComplete = true, completedChapters = new Set();
 
-    // Load chapters definitions
-    Papa.parse('Chapters.csv', {
-      download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+    Papa.parse('Chapters.csv', { download: true, header: true, skipEmptyLines: true,
       complete: function(res) {
         chapters = res.data;
         const menu = document.getElementById('menu');
@@ -51,16 +52,13 @@
 
     function selectChapter(sheet, label) {
       if (currentChapter && !chapterComplete) {
-        if (!confirm('当前章节未完成，确定要切换章节吗？当前进度将丢失。')) {
-          return;
-        }
+        if (!confirm('当前章节未完成，确定要切换章节吗？当前进度将丢失。')) return;
       }
       loadChapter(sheet, label);
     }
 
     function loadChapter(csv, label) {
-      Papa.parse(csv, {
-        download: true, header: true, skipEmptyLines: true, dynamicTyping: false,
+      Papa.parse(csv, { download: true, header: true, skipEmptyLines: true,
         complete: function(res) {
           questions = res.data.map(q => ({...q, attempt: 0}));
           document.getElementById('quiz-title').textContent = label;
@@ -74,11 +72,12 @@
     }
 
     function updateScore(delta) {
-      document.getElementById('score').textContent = '得分: ' + score.toFixed(1) +
-        ' (' + (delta>0?'+':'') + delta.toFixed(1) + ')';
+      document.getElementById('score').textContent =
+        '得分: ' + score + ' (' + (delta > 0 ? '+' : '') + delta + ')';
     }
     function updateRemaining() {
-      document.getElementById('remaining').textContent = '剩余题目: ' + queue.length;
+      document.getElementById('remaining').textContent =
+        '剩余题目: ' + queue.length;
       document.getElementById('progress').value = total - queue.length;
     }
 
@@ -88,14 +87,11 @@
       if (queue.length === 0) {
         chapterComplete = true;
         completedChapters.add(currentChapter);
-        // update button label with score
         chapterButtons[currentChapter].textContent = document.getElementById('quiz-title').textContent +
-          ' (' + score.toFixed(1) + ' 分)';
-        // show completion message
+          ' (' + score + ' 分)';
         quiz.innerHTML = '<h3>章节完成</h3>' +
-          '<p>本章得分: ' + score.toFixed(1) + '</p>' +
+          '<p>本章得分: ' + score + '</p>' +
           '<p>答对: ' + correct + '，答错: ' + wrong + '</p>';
-        // if all completed, show achievement
         if (completedChapters.size === chapters.length) {
           quiz.innerHTML += '<h2>🎉 恭喜完成所有章节！</h2>';
         }
@@ -109,13 +105,13 @@
       }
       let opts = document.createElement('div'); opts.className = 'options';
       if (q.type === 'text') {
-        opts.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔多答案">';
+        opts.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
       } else {
         let keys = ['A','B','C','D','E','F','G','H'].filter(k => q[k]);
         shuffle(keys);
         keys.forEach(l => {
           let input = document.createElement('input');
-          input.type = (q.type==='checkbox')?'checkbox':'radio';
+          input.type = (q.type==='checkbox'?'checkbox':'radio');
           input.name = 'opt'; input.value = l; input.id = 'opt_'+l;
           let lbl = document.createElement('label');
           lbl.htmlFor = 'opt_'+l; lbl.className = 'option-label';
@@ -129,28 +125,22 @@
       let sub = document.createElement('button'); sub.textContent='提交';
       sub.onclick = function() {
         let ua = [];
-        if (q.type === 'text') {
+        if (q.type==='text') {
           ua = document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
         } else {
           ua = Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
         }
-        if (!ua.length) return alert('请选择或输入答案');
+        if (!ua.length) return alert('请先选择或输入答案');
         let uaArr = ua.map(s=>s.toUpperCase()).sort();
         let caArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort();
-        let delta = 0;
-        if (q.type==='text') {
-          // any one correct
-          delta = uaArr.some(v=>caArr.includes(v)) ? (q.attempt?1:2) : -1;
-        } else {
-          delta = (uaArr.join(',')===caArr.join(',')) ? (q.attempt?1:2) : -1;
-        }
-        score += delta; if(delta>0) correct++; else wrong++;
-        let ansText = q.type==='text' ? caArr.join(' / ') : caArr.map(l=>q[l]).join(' / ');
-        fb.textContent = (delta>0?'正确! +':'错误! ') + delta.toFixed(1) +
-          (delta<0 ? ' 正确答案: ' + ansText : '');
+        let delta = (q.type==='text') ? (uaArr.some(v=>caArr.includes(v)) ? (q.attempt?1:2) : -1)
+                                     : (uaArr.join(',')===caArr.join(',') ? (q.attempt?1:2) : -1);
+        score += delta; if (delta>0) correct++; else wrong++;
+        let ansText = (q.type==='text') ? caArr.join(' / ') : caArr.map(l=>q[l]).join(' / ');
+        fb.textContent = (delta>0?'正确! +':'错误! ') + delta + (delta<0?' 正确答案: '+ansText:'');
         updateScore(delta); updateRemaining();
         sub.disabled = true; nextBtn.style.display='inline-block';
-        if (delta < 0) {
+        if (delta<0) {
           q.attempt++;
           for (let i=0;i<2;i++){
             let clone = {...q};
@@ -161,19 +151,13 @@
       div.appendChild(sub);
 
       let nextBtn = document.createElement('button');
-      nextBtn.textContent='下一题'; nextBtn.style.display='none';
-      nextBtn.onclick = nextQuestion; div.appendChild(nextBtn);
+      nextBtn.textContent='下一题'; nextBtn.style.display='none'; nextBtn.onclick=nextQuestion;
+      div.appendChild(nextBtn);
 
       quiz.appendChild(div);
     }
 
-    function shuffle(arr) {
-      for (let i=arr.length-1;i>0;i--){
-        let j = Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-      }
-      return arr;
-    }
+    function shuffle(a) { for (let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
   </script>
 </body>
 </html>
