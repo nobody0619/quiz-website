@@ -27,7 +27,7 @@
       header: true,
       skipEmptyLines: true,
       complete: function(results) {
-        const questions = results.data.map(q => ({...q, attempt:0}));
+        const questions = results.data.map(q => ({...q, attempt: 0}));
         startQuiz(questions);
       }
     });
@@ -49,61 +49,67 @@
           return;
         }
         const q = queue.shift();
-        const div = document.createElement('div'); div.className = 'question';
-        div.innerHTML = '<p><strong>Q ' + (questions.indexOf(q)+1) + ':</strong> ' + q.question + '</p>';
+        const div = document.createElement('div');
+        div.className = 'question';
+        div.innerHTML = '<p><strong>' + q.question + '</strong></p>';
         if (q.image) {
           const img = document.createElement('img');
           img.src = q.image;
           div.appendChild(img);
         }
-        const optsDiv = document.createElement('div'); optsDiv.className = 'options';
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'options';
         if (q.type === 'text') {
           optsDiv.innerHTML = '<input type="text" id="txtAns" placeholder="Type answer">';
         } else {
-          // Gather option keys and shuffle
-          const keys = ['A','B','C','D','E','F','G','H'].filter(k => q[k]);
+          const keys = ['A','B','C','D','E','F','G','H'].filter(l => q[l]);
           shuffle(keys);
           keys.forEach(l => {
             const input = document.createElement('input');
             input.type = (q.type === 'checkbox') ? 'checkbox' : 'radio';
             input.name = 'opt';
             input.value = l;
-            input.id = l;
+            input.id = 'opt_' + l;
             const label = document.createElement('label');
-            label.htmlFor = l;
+            label.htmlFor = 'opt_' + l;
             label.className = 'option-label';
             label.appendChild(input);
-            label.append(' ' + l + '. ' + q[l]);
+            label.append(' ' + q[l]);
             optsDiv.appendChild(label);
           });
         }
         div.appendChild(optsDiv);
-        const fb = document.createElement('div'); fb.className = 'feedback'; div.appendChild(fb);
+        const fb = document.createElement('div');
+        fb.className = 'feedback';
+        div.appendChild(fb);
 
         const submitBtn = document.createElement('button');
         submitBtn.textContent = 'Submit';
         submitBtn.onclick = () => {
-          let userAns = '';
+          let userArr;
           if (q.type === 'text') {
-            userAns = document.getElementById('txtAns').value.trim();
+            userArr = [document.getElementById('txtAns').value.trim()];
           } else {
-            const selected = Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i => i.value);
-            if (!selected.length) return alert('Please select answer(s).');
-            userAns = selected.sort().join(',');
+            userArr = Array.from(div.querySelectorAll('input[name="opt"]:checked'))
+                          .map(i => i.value);
+            if (userArr.length === 0) return alert('Please select answer(s).');
           }
-          const correctArr = q.answer.split(',').map(s => s.trim().toUpperCase()).sort().join(',');
-          const userArr = userAns.toUpperCase().split(',').map(s => s.trim()).sort().join(',');
-          if (userArr === correctArr) {
+          userArr = userArr.map(s => s.trim().toUpperCase()).sort();
+          const correctArr = q.answer.split(',').map(s => s.trim().toUpperCase()).sort();
+          if (arraysEqual(userArr, correctArr)) {
             score += q.attempt ? 0.5 : 1;
             fb.textContent = 'Correct!';
           } else {
             score -= 0.5;
-            fb.textContent = 'Wrong! Correct: ' + q.answer;
+            // Show actual labels
+            const labels = correctArr.map(letter => q[letter]).join(', ');
+            fb.textContent = 'Wrong! Correct: ' + labels;
             q.attempt++;
             // Insert two clones at random positions
             for (let i = 0; i < 2; i++) {
+              const clone = {...q};
               const pos = Math.floor(Math.random() * (queue.length + 1));
-              queue.splice(pos, 0, {...q});
+              queue.splice(pos, 0, clone);
             }
           }
           updateScore();
@@ -131,6 +137,10 @@
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
       return arr;
+    }
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
     }
   </script>
 </body>
