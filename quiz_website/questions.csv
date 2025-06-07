@@ -1,0 +1,6 @@
+type,question,A,B,C,D,E,F,G,H,answer,image
+radio,Which planet is known as the Red Planet?,Earth,Mars,Jupiter,Venus,,,,,B,
+checkbox,Which of the following are programming languages?,Python,HTML,JavaScript,CSS,C++,,,,"A,C,E",
+text,What is the capital of Malaysia?,,,,,,,,,Kuala Lumpur,
+truefalse,The Sun is a star.,,,,,,,,,True,
+radio,Which animal is shown in the image?,Cat,Dog,Elephant,Tiger,,,,,C,elephant.jpg
