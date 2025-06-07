@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,7 +27,7 @@
       header: true,
       skipEmptyLines: true,
       complete: function(results) {
-        const questions = results.data.map(q => ({...q, attempt: 0}));
+        const questions = results.data.map(q => ({...q, attempt:0}));
         startQuiz(questions);
       }
     });
@@ -50,39 +49,36 @@
           return;
         }
         const q = queue.shift();
-        const div = document.createElement('div');
-        div.className = 'question';
-        div.innerHTML = '<p><strong>' + q.question + '</strong></p>';
+        const div = document.createElement('div'); div.className = 'question';
+        div.innerHTML = '<p><strong>Q ' + (questions.indexOf(q)+1) + ':</strong> ' + q.question + '</p>';
         if (q.image) {
           const img = document.createElement('img');
           img.src = q.image;
           div.appendChild(img);
         }
-        const optsDiv = document.createElement('div');
-        optsDiv.className = 'options';
+        const optsDiv = document.createElement('div'); optsDiv.className = 'options';
         if (q.type === 'text') {
           optsDiv.innerHTML = '<input type="text" id="txtAns" placeholder="Type answer">';
         } else {
-          ['A','B','C','D','E','F','G','H'].forEach(l => {
-            if (q[l]) {
-              const input = document.createElement('input');
-              input.type = (q.type === 'checkbox') ? 'checkbox' : 'radio';
-              input.name = 'opt';
-              input.value = l;
-              input.id = l;
-              const label = document.createElement('label');
-              label.htmlFor = l;
-              label.className = 'option-label';
-              label.appendChild(input);
-              label.append(' ' + l + '. ' + q[l]);
-              optsDiv.appendChild(label);
-            }
+          // Gather option keys and shuffle
+          const keys = ['A','B','C','D','E','F','G','H'].filter(k => q[k]);
+          shuffle(keys);
+          keys.forEach(l => {
+            const input = document.createElement('input');
+            input.type = (q.type === 'checkbox') ? 'checkbox' : 'radio';
+            input.name = 'opt';
+            input.value = l;
+            input.id = l;
+            const label = document.createElement('label');
+            label.htmlFor = l;
+            label.className = 'option-label';
+            label.appendChild(input);
+            label.append(' ' + l + '. ' + q[l]);
+            optsDiv.appendChild(label);
           });
         }
         div.appendChild(optsDiv);
-        const fb = document.createElement('div');
-        fb.className = 'feedback';
-        div.appendChild(fb);
+        const fb = document.createElement('div'); fb.className = 'feedback'; div.appendChild(fb);
 
         const submitBtn = document.createElement('button');
         submitBtn.textContent = 'Submit';
@@ -104,8 +100,9 @@
             score -= 0.5;
             fb.textContent = 'Wrong! Correct: ' + q.answer;
             q.attempt++;
-            if (q.attempt <= 2) {
-              const pos = Math.floor(Math.random() * queue.length);
+            // Insert two clones at random positions
+            for (let i = 0; i < 2; i++) {
+              const pos = Math.floor(Math.random() * (queue.length + 1));
               queue.splice(pos, 0, {...q});
             }
           }
