@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Quiz</title>
+  <style>
+    body { font-family: Arial; text-align: center; max-width: 700px; margin: auto; }
+    .question-box { margin: 20px 0; }
+    .option-label { display: block; margin: 5px 0; text-align: left; }
+    input[type=radio] { accent-color: #007bff; }
+    input[type=checkbox] { accent-color: #28a745; }
+    .image-question { max-height: 200px; margin-top: 10px; }
+    .feedback { margin-top: 10px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Smart Quiz</h2>
+  <div id="quiz-box">Loading...</div>
+  <script>
+    const csvPath = "questions.csv";
+    let questions = [];
+    let score = 0;
+    let currentIndex = 0;
+    let retryMap = {};
+    let queue = [];
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    function loadCSV(url, callback) {
+      fetch(url).then(res => res.text()).then(text => {
+        const lines = text.trim().split("\n");
+        const headers = lines[0].split(",");
+        const data = lines.slice(1).map(row => {
+          const values = row.split(",");
+          let obj = {};
+          headers.forEach((key, i) => obj[key.trim()] = values[i]?.trim());
+          return obj;
+        });
+        callback(data);
+      });
+    }
+
+    function nextQuestion() {
+      if (currentIndex >= queue.length) {
+        document.getElementById("quiz-box").innerHTML =
+          `<h3>Quiz Completed</h3><p>Score: ${score.toFixed(1)}</p>`;
+        return;
+      }
+      const q = queue[currentIndex];
+      const container = document.getElementById("quiz-box");
+      let optionsHTML = "";
+      const keys = ["A","B","C","D","E","F","G","H"];
+      keys.forEach(k => {
+        if (q[k]) {
+          if (q.type === "radio") {
+            optionsHTML += `<label class='option-label'><input type='radio' name='option' value='${k}'> ${k}. ${q[k]}</label>`;
+          } else if (q.type === "checkbox") {
+            optionsHTML += `<label class='option-label'><input type='checkbox' name='option' value='${k}'> ${k}. ${q[k]}</label>`;
+          }
+        }
+      });
+      if (q.type === "text" || q.type === "truefalse") {
+        optionsHTML += `<input type='text' id='text-answer' placeholder='Type your answer here' style='width:90%;margin-top:10px'>`;
+      }
+      const imgHTML = q.image ? `<div><img src='${q.image}' class='image-question'></div>` : "";
+      container.innerHTML = `
+        <div class='question-box'>
+          <p><b>Q${currentIndex + 1}:</b> ${q.question}</p>
+          ${imgHTML}
+          <div id='options'>${optionsHTML}</div>
+          <button onclick='submitAnswer()'>Submit</button>
+          <div class='feedback' id='feedback'></div>
+        </div>`;
+    }
+
+    function submitAnswer() {
+      const q = queue[currentIndex];
+      let userAnswer = "";
+      if (q.type === "radio") {
+        const selected = document.querySelector("input[name='option']:checked");
+        if (!selected) return alert("Select one answer");
+        userAnswer = selected.value;
+      } else if (q.type === "checkbox") {
+        const selected = Array.from(document.querySelectorAll("input[name='option']:checked")).map(e => e.value);
+        if (selected.length === 0) return alert("Select at least one");
+        userAnswer = selected.sort().join(",");
+      } else if (q.type === "text" || q.type === "truefalse") {
+        userAnswer = document.getElementById("text-answer").value.trim();
+      }
+
+      const correct = q.answer.trim();
+      const fb = document.getElementById("feedback");
+
+      if (userAnswer.toLowerCase() === correct.toLowerCase()) {
+        if (retryMap[q.question]) {
+          score += 0.5;
+          fb.textContent = "Correct! (+0.5)";
+        } else {
+          score += 1;
+          fb.textContent = "Correct! (+1)";
+        }
+      } else {
+        score -= 0.5;
+        fb.textContent = "Wrong! (-0.5) Correct: " + correct;
+        retryMap[q.question] = (retryMap[q.question] || 0) + 1;
+        if (retryMap[q.question] <= 2) {
+          const clone = { ...q };
+          queue.splice(currentIndex + 2, 0, clone);
+        }
+      }
+
+      currentIndex++;
+      setTimeout(nextQuestion, 1500);
+    }
+
+    loadCSV(csvPath, data => {
+      shuffle(data);
+      questions = data;
+      queue = [...questions];
+      nextQuestion();
+    });
+  </script>
+</body>
+</html>
