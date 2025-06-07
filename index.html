@@ -29,60 +29,97 @@
   <div id="remaining">剩余题目: 0</div>
   <progress id="progress" value="0" max="0"></progress>
   <div id="quiz"></div>
+
 <script>
 let chapters=[], buttons={}, current=null;
 let qs=[], queue=[], score=0, corr=0, wrong=0, total=0, complete=true, done=new Set();
 Papa.parse('Chapters.csv',{download:true,header:true,skipEmptyLines:true,
-  complete(res){ chapters=res.data; let m=document.getElementById('menu'); m.innerHTML='选择章节: ';
-    chapters.forEach(ch=>{ let b=document.createElement('button'); b.textContent=ch.label;
-      b.onclick=()=>select(ch.sheet,ch.label); buttons[ch.sheet]=b; m.appendChild(b);});}});
-function select(sheet,label){
+  complete(res){ chapters=res.data;
+    let m=document.getElementById('menu'); m.innerHTML='选择章节: ';
+    chapters.forEach(ch=>{
+      let b=document.createElement('button');
+      b.textContent=ch.label; b.onclick=()=>selectChap(ch.sheet,ch.label);
+      buttons[ch.sheet]=b; m.appendChild(b);
+    });
+  }
+});
+function selectChap(sheet,label){
   if(current && !complete && !confirm('章节未完成，切换会丢失进度?')) return;
-  load(sheet,label);
+  loadChap(sheet,label);
 }
-function load(csv,label){
+function loadChap(csv,label){
   Papa.parse(csv,{download:true,header:true,skipEmptyLines:true,
-    complete(res){ qs=res.data.map(q=>({...q,attempt:0}));
+    complete(res){
+      qs=res.data.map(q=>({...q,attempt:0}));
       document.getElementById('quiz-title').textContent=label;
-      score=corr=wrong=0; total=qs.length; queue=shuffle([...qs]); current=csv; complete=false;
-      document.getElementById('progress').max=total; updScore(0); updRem(); next();}});
+      score=corr=wrong=0; total=qs.length; queue=shuffle([...qs]);
+      current=csv; complete=false;
+      document.getElementById('progress').max=total;
+      updScore(0); updRem(); nextQ();
+    }
+  });
 }
-function updScore(d){ document.getElementById('score').textContent='得分: '+score+' ('+(d>0?'+':'')+d+')';}
-function updRem(){ document.getElementById('remaining').textContent='剩余题目: '+queue.length;
-  document.getElementById('progress').value=total-queue.length;}
-function next(){
-  let qDiv=document.getElementById('quiz'); qDiv.innerHTML=''; updRem();
-  if(!queue.length){ complete=true; done.add(current);
+function updScore(d){ document.getElementById('score').textContent='得分: '+score+' ('+(d>0?'+':'')+d+')'; }
+function updRem(){
+  document.getElementById('remaining').textContent='剩余题目: '+queue.length;
+  document.getElementById('progress').value=total-queue.length;
+}
+function nextQ(){
+  let quiz=document.getElementById('quiz'); quiz.innerHTML=''; updRem();
+  if(queue.length===0){
+    complete=true; done.add(current);
     buttons[current].textContent=document.getElementById('quiz-title').textContent+' ('+score+' 分)';
-    qDiv.innerHTML='<h3>章节完成</h3><p>本章得分: '+score+'</p><p>答对:'+corr+'，答错:'+wrong+'</p>';
-    if(done.size===chapters.length) qDiv.innerHTML+='<h2>🎉 恭喜完成所有章节！</h2>'; return;}
-  let q=queue.shift(); let d=document.createElement('div'); d.className='question';
+    quiz.innerHTML='<h3>章节完成</h3><p>本章得分: '+score+'</p><p>答对:'+corr+'，答错:'+wrong+'</p>';
+    if(done.size===chapters.length) quiz.innerHTML+='<h2>🎉 恭喜完成所有章节！</h2>';
+    return;
+  }
+  let q=queue.shift();
+  let d=document.createElement('div'); d.className='question';
   d.innerHTML='<p><strong>'+q.question+'</strong></p>';
-  if(q.image){let im=document.createElement('img');im.src=q.image;d.appendChild(im);}
-  let opts=document.createElement('div');opts.className='options';
-  if(q.type==='text') opts.innerHTML='<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
-  else{ let ks=['A','B','C','D','E','F','G','H'].filter(k=>q[k]); shuffle(ks);
-    ks.forEach(l=>{ let inp=document.createElement('input'); inp.type=q.type==='checkbox'?'checkbox':'radio';
-      inp.name='opt'; inp.value=l; inp.id='o_'+l; let lbl=document.createElement('label');lbl.htmlFor='o_'+l;
-      lbl.className='option-label';lbl.appendChild(inp);lbl.append(' '+q[l]);opts.appendChild(lbl);});}
-  d.appendChild(opts); let fb=document.createElement('div');fb.className='feedback';d.appendChild(fb);
-  let sb=document.createElement('button'); sb.textContent='提交'; sb.onclick=function(){
-    let ua=[]; if(q.type==='text') ua=document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
-    else ua=Array.from(d.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
-    if(!ua.length)return alert('请先选择或输入答案'); let uaArr=ua.map(s=>s.toUpperCase()).sort();
-    let caArr=q.answer.split(',').map(s=>s.trim().toUpperCase()).sort();
-    let delta = (q.type==='text') ? (uaArr.some(v=>caArr.includes(v))?(q.attempt?1:2):-1)
-                                : (uaArr.join(',')===caArr.join(',')?(q.attempt?1:2):-1);
-    score+=delta; if(delta>0)corr++;else wrong++;
-    let ansTxt=(q.type==='text')?caArr.join(' / '):caArr.map(l=>q[l]).join(' / ');
+  if(q.image){let im=document.createElement('img'); im.src=q.image; d.appendChild(im);}
+  let opts=document.createElement('div'); opts.className='options';
+  if(q.type==='text'){
+    opts.innerHTML='<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
+  } else {
+    let ks=['A','B','C','D','E','F','G','H'].filter(k=>q[k]);
+    shuffle(ks).forEach(l=>{
+      let inp=document.createElement('input');
+      inp.type=(q.type==='checkbox'?'checkbox':'radio');
+      inp.name='opt'; inp.value=l; inp.id='opt_'+l;
+      let lbl=document.createElement('label');
+      lbl.htmlFor='opt_'+l; lbl.className='option-label';
+      lbl.appendChild(inp);
+      let raw=q[l];
+      if(/^-?\d+\.0$/.test(raw)) raw=String(parseInt(raw));
+      lbl.append(' '+raw);
+      opts.appendChild(lbl);
+    });
+  }
+  d.appendChild(opts);
+  let fb=document.createElement('div'); fb.className='feedback'; d.appendChild(fb);
+  let sb=document.createElement('button'); sb.textContent='提交';
+  sb.onclick=function(){
+    let ua=[];
+    if(q.type==='text') ua=document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
+    else ua=Array.from(d.querySelectorAll('input[name="opt"]:checked')).map(el=>el.value);
+    if(!ua.length)return alert('请先选择或输入答案');
+    let uaArr=ua.map(s=>s.toUpperCase()).sort().join(',');
+    let caArr=q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
+    let delta=(q.type==='text')?
+      (ua.some(v=>caArr.split(',').includes(v))?(q.attempt?1:2):-1):
+      (uaArr===caArr?(q.attempt?1:2):-1);
+    score+=delta; if(delta>0)corr++; else wrong++;
+    let ansTxt=(q.type==='text')?caArr.replace(/,/g,' / '):
+      caArr.split(',').map(letter=>q[letter]).join(' / ');
     fb.textContent=(delta>0?'正确! +':'错误! ')+delta+(delta<0?' 正确答案: '+ansTxt:'');
     updScore(delta); updRem(); sb.disabled=true; nb.style.display='inline-block';
-    if(delta<0){ q.attempt++; for(let i=0;i<2;i++){ let c={...q}; queue.splice(Math.floor(Math.random()*(queue.length+1)),0,c);} }
-  }; d.appendChild(sb);
-  let nb=document.createElement('button'); nb.textContent='下一题'; nb.style.display='none'; nb.onclick=next; d.appendChild(nb);
-  qDiv.appendChild(d);
+    if(delta<0){q.attempt++; for(let i=0;i<2;i++){queue.splice(Math.floor(Math.random()*(queue.length+1)),0,{...q});}}
+  };
+  d.appendChild(sb);
+  let nb=document.createElement('button'); nb.textContent='下一题'; nb.style.display='none'; nb.onclick=nextQ; d.appendChild(nb);
+  quiz.appendChild(d);
 }
-function shuffle(a){ for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;}
 </script>
 </body>
 </html>
