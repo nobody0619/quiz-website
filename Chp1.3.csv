@@ -1,6 +1,6 @@
 title,type,question,A,B,C,D,answer,image
 章节 1.3 / Chapter 1.3,radio,10 ÷ 2 = ?,4,5,6,7,B,
-,checkbox,Which are continents?,Asia,Python,Africa,HTML,"A,C",
-,text,Capital of Malaysia?,,,,,"Kuala Lumpur,吉隆坡",
-,radio,Earth is round?,True,False,,,A,
+,checkbox,以下哪些是大洲？,Asia,Python,Africa,HTML,"A,C",
+,text,中国的货币是？,,,,,"人民币,RMB",
+,radio,地球是圆的吗？,是,否,,,A,
 ,checkbox,Select programming languages,Java,Snake,C++,Rabbit,"A,C",

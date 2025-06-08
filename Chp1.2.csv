@@ -1,6 +1,6 @@
 title,type,question,A,B,C,D,answer,image
-章节 1.2 / Chapter 1.2,radio,5 * 3 = ?,15,10,8,20,A,
+章节 1.2 / Chapter 1.2,radio,泰坦尼克号在哪一年沉没？,1912,1920,1905,1918,A,
 ,checkbox,Which are colors?,Red,Dog,Blue,Cat,"A,C",
-,text,Capital of France?,,,,,"Paris,巴黎",
-,radio,Water boils at 100°C?,True,False,,,A,
-,checkbox,Select fruits,Apple,Car,Banana,Chair,"A,C",
+,text,法国的首都是？,,,,,"Paris,巴黎",
+,radio,5 * 3 = ?,15,10,8,20,A,
+,checkbox,选择水果,Apple,Car,Banana,Chair,"A,C",
