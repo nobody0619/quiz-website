@@ -1,6 +1,6 @@
-title,type,question,A,B,C,D,E,F,G,H,answer,image
-章节 1.1 / Chapter 1.1,radio,2 + 2 = ?,3,4,5.0,6.0,,,,,B,
-,checkbox,Select primes,2,4,5.0,6.0,,,,,"A,C",
-,text,Capital of China?,,,,,,,,,Beijing,
-,radio,Sun rises east?,True,False,,,,,,,A,
-,checkbox,Select evens,1,2,3.0,4.0,,,,,"B,D",
+title,type,question,A,B,C,D,answer,image
+章节 1.1 / Chapter 1.1,radio,2 + 2 = ?,3,4,5,6,B,
+,checkbox,Select primes?,2,4,5,6,"A,C",
+,text,Capital of China?,,,,,"Beijing,北京",
+,radio,Sun rises east?,True,False,,,A,
+,checkbox,Select evens,1,2,3,4,"B,D",
