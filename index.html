@@ -109,12 +109,12 @@ function startChap(csv, label, quizId) {
 function updateTimer() {
   const sec = Math.floor((Date.now() - chapterStart) / 1000);
   const m = Math.floor(sec/60), s = sec%60;
-  document.getElementById('timer').textContent = `用时: ${m}分${s}秒`;
+  document.getElementById('timer').textContent = \`用时: \${m}分\${s}秒\`;
 }
 
 function updateUI(delta) {
-  document.getElementById('score').textContent = `得分: ${score} (${delta>0?'+':''}${delta})`;
-  document.getElementById('remaining').textContent = `剩余题目: ${queue.length}`;
+  document.getElementById('score').textContent = \`得分: \${score} (\${delta>0?'+':''}\${delta})\`;
+  document.getElementById('remaining').textContent = \`剩余题目: \${queue.length}\`;
   document.getElementById('progress').value = total - queue.length;
 }
 
@@ -127,10 +127,9 @@ function nextQ() {
     clearInterval(chapterTimer);
     const dur = Math.floor((Date.now() - chapterStart) / 1000);
     const m = Math.floor(dur/60), s = dur%60;
-    const tstr = `${m}分${s}秒`;
-    buttons[currentCsv].textContent = `${document.getElementById('quiz-title').textContent} (${score} 分)`;
-    qz.innerHTML = `<h3>章节完成</h3><p>本章得分: ${score}，用时: ${tstr}</p>`;
-    // 提交到全局排行榜
+    const tstr = \`\${m}分\${s}秒\`;
+    buttons[currentCsv].textContent = \`\${document.getElementById('quiz-title').textContent} (\${score} 分)\`;
+    qz.innerHTML = \`<h3>章节完成</h3><p>本章得分: \${score}，用时: \${tstr}</p>\`;
     fetch(API_URL, {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
@@ -140,12 +139,17 @@ function nextQ() {
         score: score,
         time: dur
       })
-    }).then(() => loadGlobalBoard());
+    })
+    .then(res => res.json()).then(data => {
+      console.log('POST status:', data);
+      loadGlobalBoard();
+    })
+    .catch(err => console.error('POST error:', err));
     return;
   }
   const q = queue.shift();
   const d = document.createElement('div'); d.className = 'question';
-  d.innerHTML = `<p><strong>${q.question}</strong></p>`;
+  d.innerHTML = \`<p><strong>\${q.question}</strong></p>\`;
   if (q.image) {
     const im = document.createElement('img'); im.src = q.image; d.appendChild(im);
   }
@@ -172,11 +176,9 @@ function nextQ() {
   sb.onclick = () => {
     let ua = [];
     if (q.type==='text') {
-      ua = document.getElementById('txtAns').value.split(',')
-              .map(s=>s.trim()).filter(s=>s);
+      ua = document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
     } else {
-      ua = Array.from(d.querySelectorAll('input[name="opt"]:checked'))
-              .map(i=>i.value);
+      ua = Array.from(d.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
     }
     if (!ua.length) return alert('请选择或输入答案');
     let isCorrect = false;
@@ -189,12 +191,17 @@ function nextQ() {
       const caArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
       isCorrect = uaArr === caArr;
     }
-    const delta = isCorrect ? (q.attempt?1:2) : -1;
-    score += delta; if (isCorrect) corr++; else wrong++;
+    let delta;
+    if (isCorrect) {
+      delta = q.attempt ? 1 : 2;
+    } else {
+      delta = q.attempt ? -2 : -1;
+    }
+    score += delta; if(isCorrect) corr++; else wrong++;
     const ansTxt = (q.type==='text')
       ? q.answer.replace(/,/g,' / ')
       : q.answer.split(',').map(letter=>q[letter]).join(' / ');
-    fb.textContent = `${isCorrect?'正确! +':'错误! '}${delta}${delta<0?(' 正确答案: '+ansTxt):''}`;
+    fb.textContent = \`\${isCorrect?'正确! +':'错误! '}\${delta}\${delta<0?(' 正确答案: '+ansTxt):''}\`;
     updateUI(delta);
     sb.disabled = true; nb.style.display = 'inline-block';
     if (!isCorrect) {
@@ -212,15 +219,15 @@ function nextQ() {
 }
 
 function loadGlobalBoard(){
-  fetch(`${API_URL}?quizId=${encodeURIComponent(currentQuizId)}`)
-    .then(res=>res.json())
-    .then(rows=>{
-      rows.sort((a,b)=>b[2]-a[2] || a[3]-b[3]);
+  fetch(\`\${API_URL}?quizId=\${encodeURIComponent(currentQuizId)}\`)
+    .then(res => res.json())
+    .then(rows => {
+      rows.sort((a,b) => b[2] - a[2] || a[3] - b[3]);
       const top5 = rows.slice(0,5);
       let html = '<h3>全局排行榜 Top 5</h3><table><tr><th>排名</th><th>姓名</th><th>得分</th><th>用时</th></tr>';
-      top5.forEach((r,i)=>{
+      top5.forEach((r,i) => {
         const mm = Math.floor(r[3]/60), ss = r[3]%60;
-        html += `<tr><td>${i+1}</td><td>${r[1]}</td><td>${r[2]}</td><td>${mm}分${ss}秒</td></tr>`;
+        html += \`<tr><td>\${i+1}</td><td>\${r[1]}</td><td>\${r[2]}</td><td>\${mm}分\${ss}秒</td></tr>\`;
       });
       html += '</table>';
       document.getElementById('global-board').innerHTML = html;
