@@ -10,17 +10,14 @@
     #welcome, #main { margin:20px; }
     #main { display:none; }
     #menu { margin:20px 0; }
-    #menu button { margin:0 5px; padding:8px 12px; font-size:1em; }
-    #quiz-title { font-size:1.8em; margin:10px 0; }
-    #score,#remaining,#timer { font-size:1.1em; margin:5px 0; }
-    #progress { width:100%; height:20px; margin:10px 0; }
+    #menu button { margin:0 5px; padding:8px 12px; }
     .question { text-align:left; margin:15px 0; padding-left:20px; }
     .options { text-align:left; padding-left:20px; }
     .option-label { display:block; margin:5px 0; cursor:pointer; }
     .feedback { font-weight:bold; margin:10px 0; }
     button { padding:6px 14px; margin:5px; }
     input[type="text"] { width:100%; padding:6px; }
-    input[type="radio"], input[type="checkbox"] { transform:scale(1.2); margin-right:8px; }
+    input[type="radio"],input[type="checkbox"] { transform:scale(1.2); margin-right:8px; }
   </style>
 </head>
 <body>
@@ -40,11 +37,20 @@
     <div id="quiz"></div>
   </div>
 
+  <!-- 隐藏的 iframe & form 用于无 CORS 限制的 POST -->
+  <iframe name="postFrame" style="display:none;"></iframe>
+  <form id="postForm"
+        action="https://script.google.com/macros/s/AKfycbzysLQsC5D9mZg7DvDrvzab1L5-WXSfX70UjmLWZKJyvdUenu8y6YHEILqBbprcRvdm/exec"
+        method="post" target="postFrame" style="display:none;">
+    <input name="quizId">
+    <input name="name">
+    <input name="score">
+    <input name="time">
+  </form>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  // 把 URL 用引号包起来
-  const API_URL = 'https://script.google.com/macros/s/AKfycbzrz4XdLgWbhM3PVIimB0mvZKIGBLon6aG_Y4i4jXngzRzCwLts78y8OLhB86canOU9/exec';
-
+  const postForm = document.getElementById('postForm');
   let user = '', currentCsv = null;
   let qs = [], queue = [], score = 0, total = 0, complete = true;
   let chapterStart = 0, chapterTimer = null;
@@ -60,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function loadChapters() {
-    Papa.parse('Chapters.csv', {
-      download: true, header: true, skipEmptyLines: true,
+    Papa.parse('Chapters.csv', { download:true, header:true, skipEmptyLines:true,
       complete(res) {
         const menu = document.getElementById('menu');
         menu.innerHTML = '选择章节:';
@@ -82,10 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startChap(csv, label) {
-    Papa.parse(csv, {
-      download: true, header: true, skipEmptyLines: true,
+    Papa.parse(csv, { download:true, header:true, skipEmptyLines:true,
       complete(res) {
-        qs = res.data.map(q => ({ ...q, attempt: 0 }));
+        qs = res.data.map(q=>({...q, attempt:0}));
         score = 0; total = qs.length; queue = shuffle([...qs]);
         currentCsv = csv; complete = false;
         document.getElementById('quiz-title').textContent = label;
@@ -93,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(chapterTimer);
         chapterStart = Date.now();
         document.getElementById('timer').textContent = '用时: 0分0秒';
-        chapterTimer = setInterval(updateTimer, 1000);
+        chapterTimer = setInterval(updateTimer,1000);
         updateUI(0);
         nextQ();
       }
@@ -116,32 +120,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const quizDiv = document.getElementById('quiz');
     quizDiv.innerHTML = '';
     updateUI(0);
+
     if (queue.length === 0) {
       complete = true;
       clearInterval(chapterTimer);
       const dur = Math.floor((Date.now() - chapterStart)/1000);
       const m = Math.floor(dur/60), s = dur%60;
       const tstr = `${m}分${s}秒`;
-      buttons[currentCsv].textContent = `${document.getElementById('quiz-title').textContent} (${score} 分)`;
+      buttons[currentCsv].textContent =
+        `${document.getElementById('quiz-title').textContent} (${score} 分)`;
+
       quizDiv.innerHTML = `
         <h3>章节完成</h3>
         <p>本章得分: ${score}，用时: ${tstr}</p>
         <p>完成者: ${user}</p>
       `;
-      // 自动提交成绩到 Google Sheet
-      fetch(API_URL, {
-        method: 'POST',
-        headers: { 'Content-Type':'application/json' },
-        body: JSON.stringify({
-          quizId: currentCsv,
-          name: user,
-          score: score,
-          time: dur
-        })
-      }).catch(console.error);
+
+      // —— 无 CORS 提交表单 —— 
+      postForm.quizId.value = currentCsv;
+      postForm.name.value   = user;
+      postForm.score.value  = score;
+      postForm.time.value   = dur;
+      postForm.submit();
+
       return;
     }
 
+    // 渲染题目
     const q = queue.shift();
     const d = document.createElement('div');
     d.className = 'question';
@@ -156,19 +161,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (q.type === 'text') {
       opts.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
     } else {
-      shuffle(['A','B','C','D','E','F','G','H'].filter(k => q[k])).forEach(l => {
+      shuffle(['A','B','C','D','E','F','G','H'].filter(k=>q[k])).forEach(l=>{
         const inp = document.createElement('input');
-        inp.type = (q.type==='checkbox'?'checkbox':'radio');
-        inp.name = 'opt';
-        inp.value = l;
-        inp.id = 'opt_' + l;
+        inp.type = q.type==='checkbox'?'checkbox':'radio';
+        inp.name = 'opt'; inp.value = l; inp.id = 'opt_'+l;
         const lbl = document.createElement('label');
-        lbl.htmlFor = 'opt_' + l;
-        lbl.className = 'option-label';
+        lbl.htmlFor = 'opt_'+l; lbl.className = 'option-label';
         lbl.appendChild(inp);
-        let raw = q[l];
-        if (/^-?\\d+\\.0$/.test(raw)) raw = String(parseInt(raw));
-        lbl.append(' ' + raw);
+        let raw = q[l]; if (/^-?\\d+\\.0$/.test(raw)) raw = String(parseInt(raw));
+        lbl.append(' '+raw);
         opts.appendChild(lbl);
       });
     }
@@ -219,8 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!isCorrect) {
         q.attempt++;
-        for (let i = 0; i < 2; i++) {
-          queue.splice(Math.floor(Math.random()*(queue.length+1)), 0, {...q});
+        for (let i=0;i<2;i++){
+          queue.splice(Math.floor(Math.random()*(queue.length+1)),0,{...q});
         }
       }
     };
@@ -235,10 +236,10 @@ document.addEventListener('DOMContentLoaded', () => {
     quizDiv.appendChild(d);
   }
 
-  function shuffle(arr) {
-    for (let i = arr.length-1; i > 0; i--) {
-      const j = Math.floor(Math.random()*(i+1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
     }
     return arr;
   }
