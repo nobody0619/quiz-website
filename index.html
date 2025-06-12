@@ -42,7 +42,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const API_URL = https://script.google.com/macros/s/AKfycbzrz4XdLgWbhM3PVIimB0mvZKIGBLon6aG_Y4i4jXngzRzCwLts78y8OLhB86canOU9/exec; // ← 替换成你的部署后的 Web 应用 URL
+  // 把 URL 用引号包起来
+  const API_URL = 'https://script.google.com/macros/s/AKfycbzrz4XdLgWbhM3PVIimB0mvZKIGBLon6aG_Y4i4jXngzRzCwLts78y8OLhB86canOU9/exec';
 
   let user = '', currentCsv = null;
   let qs = [], queue = [], score = 0, total = 0, complete = true;
@@ -60,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function loadChapters() {
     Papa.parse('Chapters.csv', {
-      download:true, header:true, skipEmptyLines:true,
+      download: true, header: true, skipEmptyLines: true,
       complete(res) {
         const menu = document.getElementById('menu');
         menu.innerHTML = '选择章节:';
@@ -82,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function startChap(csv, label) {
     Papa.parse(csv, {
-      download:true, header:true, skipEmptyLines:true,
+      download: true, header: true, skipEmptyLines: true,
       complete(res) {
         qs = res.data.map(q => ({ ...q, attempt: 0 }));
         score = 0; total = qs.length; queue = shuffle([...qs]);
