@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>纪老师最棒</title>
+  <title>多 Quiz 系统（带成绩提交）</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; margin:auto; max-width:700px; text-align:center; font-size:18px; }
@@ -24,12 +24,12 @@
   <div id="welcome">
     <h2>请输入姓名 / Enter Your Name</h2>
     <input type="text" id="username" placeholder="姓名 / Name">
-    <button id="startBtn">开始测验 / Start Quiz</button>
+    <button id="startBtn" type="button">开始测验 / Start Quiz</button>
   </div>
 
   <div id="main">
     <div id="menu">加载章节...</div>
-    <h3 id="quiz-title"></h3>
+    <div id="quiz-title"></div>
     <div id="score">得分: 0</div>
     <div id="remaining">剩余题目: 0</div>
     <div id="timer">用时: 0分0秒</div>
@@ -37,6 +37,7 @@
     <div id="quiz"></div>
   </div>
 
+  <!-- 隐藏的 iframe & form 用于无 CORS 限制的 POST -->
   <iframe name="postFrame" style="display:none;"></iframe>
   <form id="postForm"
         action="https://script.google.com/macros/s/AKfycbzysLQsC5D9mZg7DvDrvzab1L5-WXSfX70UjmLWZKJyvdUenu8y6YHEILqBbprcRvdm/exec"
@@ -50,7 +51,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const postForm = document.getElementById('postForm');
-  const maxOptions = 15;  // 支持 A~O
   let user = '', currentCsv = null;
   let qs = [], queue = [], score = 0, total = 0, complete = true;
   let chapterStart = 0, chapterTimer = null;
@@ -66,8 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   function loadChapters() {
-    Papa.parse('Chapters.csv', {
-      download:true, header:true, skipEmptyLines:true,
+    Papa.parse('Chapters.csv', { download:true, header:true, skipEmptyLines:true,
       complete(res) {
         const menu = document.getElementById('menu');
         menu.innerHTML = '选择章节:';
@@ -88,10 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startChap(csv, label) {
-    Papa.parse(csv, {
-      download:true, header:true, skipEmptyLines:true,
+    Papa.parse(csv, { download:true, header:true, skipEmptyLines:true,
       complete(res) {
-        qs = res.data.map(q => ({ ...q, attempt: 0 }));
+        qs = res.data.map(q=>({...q, attempt:0}));
         score = 0; total = qs.length; queue = shuffle([...qs]);
         currentCsv = csv; complete = false;
         document.getElementById('quiz-title').textContent = label;
@@ -99,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         clearInterval(chapterTimer);
         chapterStart = Date.now();
         document.getElementById('timer').textContent = '用时: 0分0秒';
-        chapterTimer = setInterval(updateTimer, 1000);
+        chapterTimer = setInterval(updateTimer,1000);
         updateUI(0);
         nextQ();
       }
@@ -129,20 +127,26 @@ document.addEventListener('DOMContentLoaded', () => {
       const dur = Math.floor((Date.now() - chapterStart)/1000);
       const m = Math.floor(dur/60), s = dur%60;
       const tstr = `${m}分${s}秒`;
-      buttons[currentCsv].textContent = `${document.getElementById('quiz-title').textContent} (${score} 分)`;
+      buttons[currentCsv].textContent =
+        `${document.getElementById('quiz-title').textContent} (${score} 分)`;
+
       quizDiv.innerHTML = `
         <h3>章节完成</h3>
         <p>本章得分: ${score}，用时: ${tstr}</p>
         <p>完成者: ${user}</p>
       `;
+
+      // —— 无 CORS 提交表单 —— 
       postForm.quizId.value = currentCsv;
       postForm.name.value   = user;
       postForm.score.value  = score;
       postForm.time.value   = dur;
       postForm.submit();
+
       return;
     }
 
+    // 渲染题目
     const q = queue.shift();
     const d = document.createElement('div');
     d.className = 'question';
@@ -154,21 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     const opts = document.createElement('div');
     opts.className = 'options';
-
     if (q.type === 'text') {
       opts.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
     } else {
-      // 动态生成 A~O
-      const letters = Array.from({length: maxOptions}, (_,i) => String.fromCharCode(65 + i));
-      shuffle(letters.filter(l => q[l])).forEach(l => {
+      shuffle(['A','B','C','D','E','F','G','H'].filter(k=>q[k])).forEach(l=>{
         const inp = document.createElement('input');
-        inp.type = (q.type==='checkbox'?'checkbox':'radio');
+        inp.type = q.type==='checkbox'?'checkbox':'radio';
         inp.name = 'opt'; inp.value = l; inp.id = 'opt_'+l;
         const lbl = document.createElement('label');
         lbl.htmlFor = 'opt_'+l; lbl.className = 'option-label';
         lbl.appendChild(inp);
         let raw = q[l]; if (/^-?\\d+\\.0$/.test(raw)) raw = String(parseInt(raw));
-        lbl.append(' ' + raw);
+        lbl.append(' '+raw);
         opts.appendChild(lbl);
       });
     }
@@ -183,9 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
     sb.onclick = () => {
       let ua = [];
       if (q.type==='text') {
-        ua = document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
+        ua = document.getElementById('txtAns').value
+               .split(',').map(s=>s.trim()).filter(s=>s);
       } else {
-        ua = Array.from(d.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
+        ua = Array.from(d.querySelectorAll('input[name="opt"]:checked'))
+               .map(i=>i.value);
       }
       if (!ua.length) return alert('请选择或输入答案');
 
@@ -197,5 +200,50 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         const uaArr = ua.map(s=>s.toUpperCase()).sort().join(',');
         const caArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
-        isCorrect = uaArr===caArr;
-      } ​:contentReference[oaicite:0]{index=0}​
+        isCorrect = uaArr === caArr;
+      }
+
+      const delta = isCorrect ? (q.attempt?1:2) : (q.attempt?-2:-1);
+      score += delta;
+
+      let ansTxt = '';
+      if (delta < 0) {
+        ansTxt = q.answer.split(',').map(letter=>q[letter]||letter).join(' / ');
+      }
+      fb.textContent = isCorrect
+        ? `正确! +${delta}`
+        : `错误! ${delta} 正确答案: ${ansTxt}`;
+
+      updateUI(delta);
+      sb.disabled = true;
+      nb.style.display = 'inline-block';
+
+      if (!isCorrect) {
+        q.attempt++;
+        for (let i=0;i<2;i++){
+          queue.splice(Math.floor(Math.random()*(queue.length+1)),0,{...q});
+        }
+      }
+    };
+    d.appendChild(sb);
+
+    const nb = document.createElement('button');
+    nb.textContent = '下一题';
+    nb.style.display = 'none';
+    nb.onclick = nextQ;
+    d.appendChild(nb);
+
+    quizDiv.appendChild(d);
+  }
+
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
+    }
+    return arr;
+  }
+});
+</script>
+</body>
+</html>
