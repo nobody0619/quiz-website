@@ -1,242 +1,205 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>纪老师超级棒！</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>纪老师棒棒哒~</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin:auto; max-width:700px; text-align:center; font-size:18px; }
-    #welcome, #main { margin:20px; }
-    #main { display:none; }
-    #menu { margin:20px 0; }
-    #menu button { margin:0 5px; padding:8px 12px; }
+    body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; }
+    #menu, #quiz, #finish { margin:20px; }
+    #menu button, #controls button { margin:5px; padding:8px 12px; }
     .question { text-align:left; margin:15px 0; padding-left:20px; }
-    .options { text-align:left; padding-left:20px; }
     .option-label { display:block; margin:5px 0; cursor:pointer; }
     .feedback { font-weight:bold; margin:10px 0; }
-    button { padding:6px 14px; margin:5px; }
-    input[type="text"] { width:100%; padding:6px; }
-    input[type="radio"],input[type="checkbox"] { transform:scale(1.2); margin-right:8px; }
+    progress { width:100%; height:20px; }
   </style>
 </head>
 <body>
-  <div id="welcome">
-    <h2>请输入姓名 / Enter Your Name</h2>
-    <input type="text" id="username" placeholder="姓名 / Name">
-    <button id="startBtn" type="button">开始测验 / Start Quiz</button>
+
+  <div id="menu">
+    <h2>请选择章节 / Select Chapter</h2>
+    <!-- 章节按钮由 JS 动态插入 -->
   </div>
 
-  <div id="main">
-    <div id="menu">加载章节...</div>
-    <div id="quiz-title"></div>
+  <div id="quiz" style="display:none;">
+    <h3 id="quiz-title"></h3>
     <div id="score">得分: 0</div>
     <div id="remaining">剩余题目: 0</div>
-    <div id="timer">用时: 0分0秒</div>
     <progress id="progress" value="0" max="0"></progress>
-    <div id="quiz"></div>
+    <div id="question-area"></div>
   </div>
 
-  <!-- 隐藏的 iframe & form 用于无 CORS 限制的 POST -->
-  <iframe name="postFrame" style="display:none;"></iframe>
-  <form id="postForm"
-        action="https://script.google.com/macros/s/AKfycbzysLQsC5D9mZg7DvDrvzab1L5-WXSfX70UjmLWZKJyvdUenu8y6YHEILqBbprcRvdm/exec"
-        method="post" target="postFrame" style="display:none;">
-    <input name="quizId">
-    <input name="name">
-    <input name="score">
-    <input name="time">
-  </form>
+  <div id="finish" style="display:none;">
+    <h3 id="finish-msg"></h3>
+    <p id="stats"></p>
+    <div id="controls"></div>
+  </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const postForm = document.getElementById('postForm');
-  let user = '', currentCsv = null;
-  let qs = [], queue = [], score = 0, total = 0, complete = true;
-  let chapterStart = 0, chapterTimer = null;
-  const buttons = {};
+document.addEventListener('DOMContentLoaded', ()=> {
+  // 全局变量
+  let user='';                  // 可扩展：按需加姓名输入逻辑
+  let chapters=[];              // 从 CSV 读的所有行
+  let grouped={};               // 按 chapter 分组后的对象
+  let currentChapter='';        
+  let sectionList=[];           // 本章的 section 顺序数组
+  let secIndex=0;               // 当前执行到第几个 section
+  let qs=[], queue=[];          
+  let score=0, correct=0, wrong=0;
+  const MAX_OPTS=15;            // A~O
 
-  document.getElementById('startBtn').onclick = () => {
-    const nm = document.getElementById('username').value.trim();
-    if (!nm) return alert('请输入姓名');
-    user = nm;
-    document.getElementById('welcome').style.display = 'none';
-    document.getElementById('main').style.display = 'block';
-    loadChapters();
-  };
-
-  function loadChapters() {
-    Papa.parse('Chapters.csv', { download:true, header:true, skipEmptyLines:true,
-      complete(res) {
-        const menu = document.getElementById('menu');
-        menu.innerHTML = '选择章节:';
-        res.data.forEach(ch => {
-          const btn = document.createElement('button');
-          btn.textContent = ch.label;
-          btn.onclick = () => selectChap(ch.sheet, ch.label);
-          buttons[ch.sheet] = btn;
-          menu.appendChild(btn);
-        });
+  // 加载 Chapters.csv
+  Papa.parse('Chapters.csv',{download:true,header:true,skipEmptyLines:true,
+    complete(r) {
+      chapters = r.data;
+      // 按 chapter 分组
+      chapters.forEach(row=>{
+        if(!grouped[row.chapter]) grouped[row.chapter]=[];
+        grouped[row.chapter].push(row);
+      });
+      // 渲染章节按钮
+      const menu = document.getElementById('menu');
+      for(const chap of Object.keys(grouped)) {
+        const btn = document.createElement('button');
+        btn.textContent = chap;
+        btn.onclick = ()=>startChapter(chap);
+        menu.appendChild(btn);
       }
-    });
+    }
+  });
+
+  function startChapter(chap) {
+    currentChapter = chap;
+    sectionList = grouped[chap]
+                    .sort((a,b)=>a.section.localeCompare(b.section))
+                    .map(r=>r);
+    secIndex = 0;
+    document.getElementById('menu').style.display='none';
+    loadSection();
   }
 
-  function selectChap(csv, label) {
-    if (currentCsv && !complete && !confirm('章节未完成，是否切换？')) return;
-    startChap(csv, label);
-  }
-
-  function startChap(csv, label) {
-    Papa.parse(csv, { download:true, header:true, skipEmptyLines:true,
-      complete(res) {
-        qs = res.data.map(q=>({...q, attempt:0}));
-        score = 0; total = qs.length; queue = shuffle([...qs]);
-        currentCsv = csv; complete = false;
-        document.getElementById('quiz-title').textContent = label;
-        document.getElementById('progress').max = total;
-        clearInterval(chapterTimer);
-        chapterStart = Date.now();
-        document.getElementById('timer').textContent = '用时: 0分0秒';
-        chapterTimer = setInterval(updateTimer,1000);
+  function loadSection() {
+    const sec = sectionList[secIndex];
+    document.getElementById('quiz-title').textContent = 
+      `${currentChapter} – ${sec.section}: ${sec.label}`;
+    // 重置题目队列和统计
+    score = correct = wrong = 0;
+    qs=[]; queue=[];
+    Papa.parse(sec.sheet,{download:true,header:true,skipEmptyLines:true,
+      complete(r) {
+        qs = r.data.map(q=>({...q,attempt:0}));
+        queue = shuffle([...qs]);
+        document.getElementById('quiz').style.display='block';
+        document.getElementById('finish').style.display='none';
         updateUI(0);
         nextQ();
       }
     });
   }
 
-  function updateTimer() {
-    const sec = Math.floor((Date.now() - chapterStart)/1000);
-    const m = Math.floor(sec/60), s = sec%60;
-    document.getElementById('timer').textContent = `用时: ${m}分${s}秒`;
-  }
-
   function updateUI(delta) {
     document.getElementById('score').textContent = `得分: ${score} (${delta>0?'+':''}${delta})`;
     document.getElementById('remaining').textContent = `剩余题目: ${queue.length}`;
-    document.getElementById('progress').value = total - queue.length;
+    document.getElementById('progress').max = qs.length;
+    document.getElementById('progress').value = qs.length - queue.length;
   }
 
   function nextQ() {
-    const quizDiv = document.getElementById('quiz');
-    quizDiv.innerHTML = '';
+    const qa = document.getElementById('question-area');
+    qa.innerHTML='';
     updateUI(0);
-
-    if (queue.length === 0) {
-      complete = true;
-      clearInterval(chapterTimer);
-      const dur = Math.floor((Date.now() - chapterStart)/1000);
-      const m = Math.floor(dur/60), s = dur%60;
-      const tstr = `${m}分${s}秒`;
-      buttons[currentCsv].textContent =
-        `${document.getElementById('quiz-title').textContent} (${score} 分)`;
-
-      quizDiv.innerHTML = `
-        <h3>章节完成</h3>
-        <p>本章得分: ${score}，用时: ${tstr}</p>
-        <p>完成者: ${user}</p>
-      `;
-
-      // —— 无 CORS 提交表单 —— 
-      postForm.quizId.value = currentCsv;
-      postForm.name.value   = user;
-      postForm.score.value  = score;
-      postForm.time.value   = dur;
-      postForm.submit();
-
-      return;
-    }
-
-    // 渲染题目
+    if(queue.length===0) return finishSection();
     const q = queue.shift();
-    const d = document.createElement('div');
-    d.className = 'question';
-    d.innerHTML = `<p><strong>${q.question}</strong></p>`;
-    if (q.image) {
-      const img = document.createElement('img');
-      img.src = q.image;
-      d.appendChild(img);
-    }
-    const opts = document.createElement('div');
-    opts.className = 'options';
-    if (q.type === 'text') {
-      opts.innerHTML = '<input type="text" id="txtAns" placeholder="请输入答案，用逗号分隔">';
+    const div = document.createElement('div'); div.className='question';
+    div.innerHTML = `<p><strong>${q.question}</strong></p>`;
+    const opts = document.createElement('div'); opts.className='options';
+
+    if(q.type==='text') {
+      opts.innerHTML = `<input type="text" id="txtAns" placeholder="请输入答案…">`;
     } else {
-      shuffle(['A','B','C','D','E','F','G','H'].filter(k=>q[k])).forEach(l=>{
+      const letters = Array.from({length:MAX_OPTS},(_,i)=>String.fromCharCode(65+i));
+      shuffle(letters.filter(l=>q[l])).forEach(l=>{
         const inp = document.createElement('input');
         inp.type = q.type==='checkbox'?'checkbox':'radio';
-        inp.name = 'opt'; inp.value = l; inp.id = 'opt_'+l;
-        const lbl = document.createElement('label');
-        lbl.htmlFor = 'opt_'+l; lbl.className = 'option-label';
-        lbl.appendChild(inp);
-        let raw = q[l]; if (/^-?\\d+\\.0$/.test(raw)) raw = String(parseInt(raw));
+        inp.name = 'opt'; inp.value = l; inp.id='opt_'+l;
+        const lbl = document.createElement('label'); lbl.className='option-label';
+        lbl.htmlFor='opt_'+l; lbl.appendChild(inp);
+        let raw = q[l]; if(/^-?\d+\.0$/.test(raw)) raw=String(parseInt(raw));
         lbl.append(' '+raw);
         opts.appendChild(lbl);
       });
     }
-    d.appendChild(opts);
+    div.appendChild(opts);
 
-    const fb = document.createElement('div');
-    fb.className = 'feedback';
-    d.appendChild(fb);
-
-    const sb = document.createElement('button');
-    sb.textContent = '提交';
-    sb.onclick = () => {
+    const fb = document.createElement('div'); fb.className='feedback'; div.appendChild(fb);
+    const sb = document.createElement('button'); sb.textContent='提交';
+    sb.onclick = ()=>{
       let ua = [];
-      if (q.type==='text') {
-        ua = document.getElementById('txtAns').value
-               .split(',').map(s=>s.trim()).filter(s=>s);
+      if(q.type==='text'){
+        ua = document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
       } else {
-        ua = Array.from(d.querySelectorAll('input[name="opt"]:checked'))
-               .map(i=>i.value);
+        ua = Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
       }
-      if (!ua.length) return alert('请选择或输入答案');
-
-      let isCorrect = false;
-      if (q.type==='text') {
-        const lows = ua.map(s=>s.toLowerCase());
-        const ansList = q.answer.split(',').map(s=>s.toLowerCase());
-        isCorrect = lows.some(v=>ansList.includes(v));
+      if(!ua.length) return alert('请选择或输入答案');
+      let isC=false;
+      if(q.type==='text'){
+        const lows=ua.map(s=>s.toLowerCase());
+        const ansList=q.answer.split(',').map(s=>s.toLowerCase());
+        isC=lows.some(v=>ansList.includes(v));
       } else {
-        const uaArr = ua.map(s=>s.toUpperCase()).sort().join(',');
-        const caArr = q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
-        isCorrect = uaArr === caArr;
+        const uaA=ua.map(s=>s.toUpperCase()).sort().join(',');
+        const caA=q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
+        isC = uaA===caA;
       }
-
-      const delta = isCorrect ? (q.attempt?1:2) : (q.attempt?-2:-1);
-      score += delta;
-
-      let ansTxt = '';
-      if (delta < 0) {
-        ansTxt = q.answer.split(',').map(letter=>q[letter]||letter).join(' / ');
+      const delta = isC?(q.attempt?1:2):(q.attempt?-2:-1);
+      score += delta; if(isC) correct++; else wrong++;
+      let ansTxt='';
+      if(delta<0){
+        ansTxt=q.answer.split(',').map(letter=>q[letter]||letter).join(' / ');
       }
-      fb.textContent = isCorrect
-        ? `正确! +${delta}`
-        : `错误! ${delta} 正确答案: ${ansTxt}`;
-
+      fb.textContent = isC?`正确! +${delta}`:`错误! ${delta} 正确答案: ${ansTxt}`;
       updateUI(delta);
-      sb.disabled = true;
-      nb.style.display = 'inline-block';
-
-      if (!isCorrect) {
+      sb.disabled=true;
+      const nb = document.createElement('button');
+      nb.textContent='下一题'; nb.onclick=nextQ;
+      div.appendChild(nb);
+      if(!isC){
         q.attempt++;
-        for (let i=0;i<2;i++){
-          queue.splice(Math.floor(Math.random()*(queue.length+1)),0,{...q});
+        for(let i=0;i<2;i++){
+          queue.splice(Math.floor(Math.random()*(queue.length+1)),0, {...q});
         }
       }
     };
-    d.appendChild(sb);
+    div.appendChild(sb);
 
-    const nb = document.createElement('button');
-    nb.textContent = '下一题';
-    nb.style.display = 'none';
-    nb.onclick = nextQ;
-    d.appendChild(nb);
-
-    quizDiv.appendChild(d);
+    qa.appendChild(div);
   }
 
-  function shuffle(arr){
+  function finishSection() {
+    document.getElementById('quiz').style.display='none';
+    document.getElementById('finish').style.display='block';
+    document.getElementById('finish-msg').textContent = '恭喜！本节完成 🎉';
+    document.getElementById('stats').textContent = 
+      `得分: ${score}，答对 ${correct} 题，答错 ${wrong} 题`;
+    const ctrl = document.getElementById('controls'); ctrl.innerHTML='';
+    const nextBtn = document.createElement('button');
+    nextBtn.textContent = (secIndex < sectionList.length-1) 
+      ? '下一节' 
+      : '返回章节选择';
+    nextBtn.onclick = ()=>{
+      document.getElementById('finish').style.display='none';
+      if(secIndex < sectionList.length-1) {
+        secIndex++;
+        loadSection();
+      } else {
+        document.getElementById('menu').style.display='block';
+      }
+    };
+    ctrl.appendChild(nextBtn);
+  }
+
+  function shuffle(arr) {
     for(let i=arr.length-1;i>0;i--){
       const j=Math.floor(Math.random()*(i+1));
       [arr[i],arr[j]]=[arr[j],arr[i]];
@@ -245,5 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
 </body>
 </html>
