@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>纪老师真棒</title>
+  <title>纪老师真厉害</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; }
@@ -19,7 +19,6 @@
 
   <div id="menu">
     <h2>请选择章节 / Select Chapter</h2>
-    <!-- 章节按钮由 JS 动态插入 -->
   </div>
 
   <div id="quiz" style="display:none;">
@@ -38,79 +37,81 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', ()=> {
-  // 全局变量
   let chapters = [], grouped = {};
-  let currentChapter = '';
-  let sectionList = [], secIndex = 0;
-  let qs = [], queue = [];
-  let score = 0, correct = 0, wrong = 0;
-  let chapterStart = 0, chapterTimer = null;
-  const MAX_OPTS = 15;  // 支持 A~O
+  let chapterKey, sectionKey, labelKey, sheetKey;
+  let currentChapter = '', sectionList = [], secIndex = 0;
+  let qs = [], queue = [], score = 0, correct = 0, wrong = 0;
+  const MAX_OPTS = 15;
 
-  // 载入并清洗 Chapters.csv
   function loadChapters() {
     Papa.parse('Chapters.csv', {
       download: true, header: true, skipEmptyLines: true,
       complete(res) {
-        // 去除表头及单元格前后空白
+        // Clean keys & values
         chapters = res.data.map(raw => {
           const row = {};
           Object.entries(raw).forEach(([k, v]) => {
-            row[k.trim()] = (typeof v === 'string' ? v.trim() : v);
+            row[k.trim()] = typeof v==='string' ? v.trim() : v;
           });
           return row;
         });
-        // 分组
+        if (!chapters.length) return;
+        // detect column names
+        const keys = Object.keys(chapters[0]);
+        chapterKey = keys.find(k=>k.toLowerCase()==='chapter');
+        sectionKey = keys.find(k=>k.toLowerCase()==='section');
+        labelKey   = keys.find(k=>k.toLowerCase()==='label');
+        sheetKey   = keys.find(k=>k.toLowerCase()==='sheet');
+        // group by chapter
         grouped = {};
         chapters.forEach(r => {
-          const chap = r.chapter;
-          if (!grouped[chap]) grouped[chap] = [];
+          const chap = r[chapterKey];
+          if (!grouped[chap]) grouped[chap]=[];
           grouped[chap].push(r);
         });
-        // 渲染章节按钮
+        // render chapter buttons
         const menu = document.getElementById('menu');
         menu.innerHTML = '<h2>请选择章节 / Select Chapter</h2>';
         Object.keys(grouped).forEach(chap => {
           const btn = document.createElement('button');
           btn.textContent = chap;
-          btn.onclick = () => startChapter(chap);
+          btn.onclick = ()=>startChapter(chap);
           menu.appendChild(btn);
         });
       }
     });
   }
 
-  // 开始某章节
   function startChapter(chap) {
     currentChapter = chap;
     sectionList = grouped[chap]
-      .sort((a,b) => a.section.localeCompare(b.section))
-      .map(r => r);
+      .sort((a,b)=> {
+        const sa = a[sectionKey], sb = b[sectionKey];
+        return sa.localeCompare(sb);
+      });
     secIndex = 0;
-    document.getElementById('menu').style.display = 'none';
+    document.getElementById('menu').style.display='none';
     loadSection();
   }
 
-  // 载入当前节
   function loadSection() {
     const sec = sectionList[secIndex];
     document.getElementById('quiz-title').textContent =
-      `${currentChapter} – ${sec.section}: ${sec.label}`;
+      `${currentChapter} – ${sec[sectionKey]}: ${sec[labelKey]}`;
     score = correct = wrong = 0;
-    Papa.parse(sec.sheet, {
-      download: true, header: true, skipEmptyLines: true,
-      complete(res) {
-        qs = res.data.map(q => ({ ...q, attempt:0 }));
+    Papa.parse(sec[sheetKey], {
+      download:true, header:true, skipEmptyLines:true,
+      complete(r) {
+        qs = r.data.map(q=> ({...q, attempt:0}));
         queue = shuffle([...qs]);
-        document.getElementById('quiz').style.display = 'block';
-        document.getElementById('finish').style.display = 'none';
+        document.getElementById('quiz').style.display='block';
+        document.getElementById('finish').style.display='none';
         updateUI(0);
         nextQ();
       }
     });
   }
 
-  // 更新进度 / 分数显示
   function updateUI(delta) {
     document.getElementById('score').textContent =
       `得分: ${score} (${delta>0?'+':''}${delta})`;
@@ -120,92 +121,67 @@ document.addEventListener('DOMContentLoaded', ()=> {
     document.getElementById('progress').value = qs.length - queue.length;
   }
 
-  // 渲染下一题或结束本节
   function nextQ() {
     const qa = document.getElementById('question-area');
-    qa.innerHTML = '';
-    updateUI(0);
-    if (queue.length === 0) return finishSection();
-
+    qa.innerHTML=''; updateUI(0);
+    if (queue.length===0) return finishSection();
     const q = queue.shift();
     const div = document.createElement('div');
-    div.className = 'question';
-    div.innerHTML = `<p><strong>${q.question}</strong></p>`;
-
-    // 选项
-    const opts = document.createElement('div');
-    opts.className = 'options';
-    if (q.type === 'text') {
-      opts.innerHTML =
-        '<input type="text" id="txtAns" placeholder="请输入答案…">';
+    div.className='question';
+    div.innerHTML=`<p><strong>${q.question}</strong></p>`;
+    const opts = document.createElement('div'); opts.className='options';
+    if (q.type==='text') {
+      opts.innerHTML='<input type="text" id="txtAns" placeholder="请输入答案…">';
     } else {
-      const letters = Array.from({length:MAX_OPTS}, (_,i) =>
-        String.fromCharCode(65+i));
-      shuffle(letters.filter(l => q[l])).forEach(l => {
-        const inp = document.createElement('input');
-        inp.type = (q.type==='checkbox'?'checkbox':'radio');
-        inp.name = 'opt'; inp.value = l; inp.id = 'opt_'+l;
-        const lbl = document.createElement('label');
-        lbl.className = 'option-label';
-        lbl.htmlFor = 'opt_'+l;
+      const letters = Array.from({length:MAX_OPTS},(_,i)=>String.fromCharCode(65+i));
+      shuffle(letters.filter(l=>q[l])).forEach(l=>{
+        const inp=document.createElement('input');
+        inp.type=q.type==='checkbox'?'checkbox':'radio';
+        inp.name='opt'; inp.value=l; inp.id='opt_'+l;
+        const lbl=document.createElement('label');
+        lbl.className='option-label'; lbl.htmlFor='opt_'+l;
         lbl.appendChild(inp);
-        let raw = q[l];
-        if (/^-?\d+\.0$/.test(raw)) raw = String(parseInt(raw));
+        let raw=q[l]; if(/^-?\d+\.0$/.test(raw)) raw=String(parseInt(raw));
         lbl.append(' '+raw);
         opts.appendChild(lbl);
       });
     }
     div.appendChild(opts);
-
-    // 反馈 & 按钮
-    const fb = document.createElement('div');
-    fb.className = 'feedback';
-    div.appendChild(fb);
-
-    const sb = document.createElement('button');
-    sb.textContent = '提交';
-    sb.onclick = () => {
-      let ua = [];
-      if (q.type==='text') {
-        ua = document.getElementById('txtAns').value
-          .split(',').map(s=>s.trim()).filter(s=>s);
+    const fb=document.createElement('div'); fb.className='feedback'; div.appendChild(fb);
+    const sb=document.createElement('button'); sb.textContent='提交';
+    sb.onclick=()=>{
+      let ua=[];
+      if(q.type==='text'){
+        ua=document.getElementById('txtAns').value.split(',').map(s=>s.trim()).filter(s=>s);
       } else {
-        ua = Array.from(div.querySelectorAll(
-          'input[name="opt"]:checked')).map(i=>i.value);
+        ua=Array.from(div.querySelectorAll('input[name="opt"]:checked')).map(i=>i.value);
       }
-      if (!ua.length) return alert('请选择或输入答案');
-      let isC = false;
-      if (q.type==='text') {
-        const lows = ua.map(s=>s.toLowerCase());
-        const ansList = q.answer.split(',').map(s=>s.toLowerCase());
-        isC = lows.some(v=>ansList.includes(v));
+      if(!ua.length) return alert('请选择或输入答案');
+      let isC=false;
+      if(q.type==='text'){
+        const lows=ua.map(s=>s.toLowerCase());
+        const ansList=q.answer.split(',').map(s=>s.toLowerCase());
+        isC=lows.some(v=>ansList.includes(v));
       } else {
-        const uaA = ua.map(s=>s.toUpperCase()).sort().join(',');
-        const caA = q.answer.split(',').map(s=>s.trim().toUpperCase())
-                            .sort().join(',');
-        isC = uaA===caA;
+        const uaA=ua.map(s=>s.toUpperCase()).sort().join(',');
+        const caA=q.answer.split(',').map(s=>s.trim().toUpperCase()).sort().join(',');
+        isC=uaA===caA;
       }
-      const delta = isC ? (q.attempt?1:2) : (q.attempt?-2:-1);
-      score += delta; if (isC) correct++; else wrong++;
-      let ansTxt = '';
-      if (delta < 0) {
-        ansTxt = q.answer.split(',')
-          .map(letter=>q[letter]||letter).join(' / ');
+      const delta=isC?(q.attempt?1:2):(q.attempt?-2:-1);
+      score+=delta; if(isC) correct++; else wrong++;
+      let ansTxt='';
+      if(delta<0){
+        ansTxt=q.answer.split(',').map(letter=>q[letter]||letter).join(' / ');
       }
-      fb.textContent = isC
-        ? `正确! +${delta}`
-        : `错误! ${delta} 正确答案: ${ansTxt}`;
+      fb.textContent = isC?`正确! +${delta}`:`错误! ${delta} 正确答案: ${ansTxt}`;
       updateUI(delta);
-      sb.disabled = true;
-      const nb = document.createElement('button');
-      nb.textContent = '下一题';
-      nb.onclick = nextQ;
-      div.appendChild(nb);
-      if (!isC) {
+      sb.disabled=true;
+      const nb=document.createElement('button');
+      nb.textContent='下一题'; nb.onclick=nextQ; div.appendChild(nb);
+      if(!isC){
         q.attempt++;
-        for (let i=0; i<2; i++){
-          queue.splice(Math.floor(Math.random()*(queue.length+1)),
-                       0,{...q});
+        for(let i=0;i<2;i++){
+          queue.splice(Math.floor(Math.random()*(queue.length+1)),0,{...q});
         }
       }
     };
@@ -213,41 +189,35 @@ document.addEventListener('DOMContentLoaded', ()=> {
     qa.appendChild(div);
   }
 
-  // 完成本节
   function finishSection() {
-    document.getElementById('quiz').style.display = 'none';
-    document.getElementById('finish').style.display = 'block';
-    document.getElementById('finish-msg').textContent = '恭喜！本节完成 🎉';
-    document.getElementById('stats').textContent =
+    document.getElementById('quiz').style.display='none';
+    document.getElementById('finish').style.display='block';
+    document.getElementById('finish-msg').textContent='恭喜！本节完成 🎉';
+    document.getElementById('stats').textContent=
       `得分: ${score}，答对 ${correct} 题，答错 ${wrong} 题`;
-    const ctrl = document.getElementById('controls');
-    ctrl.innerHTML = '';
-    const btn = document.createElement('button');
-    btn.textContent = (secIndex < sectionList.length - 1)
-      ? '下一节'
-      : '返回章节选择';
-    btn.onclick = () => {
-      document.getElementById('finish').style.display = 'none';
-      if (secIndex < sectionList.length - 1) {
-        secIndex++;
-        loadSection();
+    const ctrl=document.getElementById('controls'); ctrl.innerHTML='';
+    const btn=document.createElement('button');
+    btn.textContent = (secIndex < sectionList.length-1)
+      ? '下一节' : '返回章节选择';
+    btn.onclick=()=>{
+      document.getElementById('finish').style.display='none';
+      if(secIndex < sectionList.length-1){
+        secIndex++; loadSection();
       } else {
-        document.getElementById('menu').style.display = 'block';
+        document.getElementById('menu').style.display='block';
       }
     };
     ctrl.appendChild(btn);
   }
 
-  // 洗牌
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random()*(i+1));
-      [arr[i],arr[j]] = [arr[j],arr[i]];
+  function shuffle(arr){
+    for(let i=arr.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [arr[i],arr[j]]=[arr[j],arr[i]];
     }
     return arr;
   }
 
-  // 初始加载
   loadChapters();
 });
 </script>
