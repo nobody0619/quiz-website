@@ -1,0 +1,27 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+Dividen,checkbox,Dividen Interim,Dividen yang dibayar sebelum keuntungan sebenar diketahui,Pembayaran dibuat sebelum tempoh perakaunan berakhir,Diisytiharkan harkan selepas keuntungan sebenar diketahui,Pembayaran dibuat selepas tempoh perakaunan berakhir,,,"A,B",
+,checkbox,Dividen Akhir,Dividen yang dibayar sebelum keuntungan sebenar diketahui,Pembayaran dibuat sebelum tempoh perakaunan berakhir,Diisytiharkan harkan selepas keuntungan sebenar diketahui,Pembayaran dibuat selepas tempoh perakaunan berakhir,,,"C,D",
+,radio,"16 Januari 2017, 上市 2 000 000 unit 6% Syer Keutamaan pada harga RM1.00 sesyer
+31 Jun 2017 宣布 Dividen Interim: 6% Syer Keutamaan
+请问 Dividen Interim 怎么算？",2 000 000 x RM1 x 6%,2 000 000 x RM1 x 6% x 5/12,2 000 000 x RM1 x 6% x 6/12,2 000 000 x RM1 x 6% x 7/12,,,B,
+,radio,"1 Apr 2025: 1 000 000 unit 8% Syer Keutamaan pada harga RM2.00 sesyer
+31 Disember 2025 分 Dividen akhir
+Dividen akhir 怎么算",1 000 000 x RM2 x 8%,1 000 000 x RM2 x 8% x 4/12,1 000 000 x RM2 x 8% x 9/12,1 000 000 x RM0.08,,,C,
+,radio,"1 Apr 2025: 1 000 000 unit Syer Biasa pada harga RM2.00 sesyer
+31 Disember 2025 分 Dividen akhir 8 sen per syer
+Dividen akhir 怎么算",1 000 000 x RM2 x 8%,1 000 000 x RM2 x 8% x 4/12,1 000 000 x RM2 x 8% x 9/12,1 000 000 x RM0.08,,,D,
+,radio,"1 Apr 2025: 1 000 000 unit Syer Biasa pada harga RM2.00 sesyer
+31 Disember 2025 分 Dividen akhir 8%
+Dividen akhir 怎么算",1 000 000 x RM2 x 8%,1 000 000 x RM2 x 8% x 4/12,1 000 000 x RM2 x 8% x 9/12,1 000 000 x RM0.08,,,A,
+,radio,"16 Januari 2017, 上市 3 000 000 unit Syer Biasa pada harga RM0.50 sesyer
+31 Jun 2017 宣布 Dividen Interim: Syer Biasa pada kadar 3%
+请问 Dividen Interim 怎么算？",3 000 000 x RM0.5 x 3% x 5/12,3 000 000 x RM0.5 x 3%,3 000 000 x RM0.03,3 000 000 x RM0.03 x 5/12,,,B,
+,radio,"16 Januari 2017, 上市 3 000 000 unit Syer Biasa pada harga RM0.50 sesyer
+31 Jun 2017 宣布 Dividen Interim: Syer Biasa 3 sen sesyer
+请问 Dividen Interim 怎么算？",3 000 000 x RM0.5 x 3% x 5/12,3 000 000 x RM0.5 x 3%,3 000 000 x RM0.03,3 000 000 x RM0.03 x 5/12,,,C,
+,radio,,,,,,,,,
+,radio,,,,,,,,,
+,radio,,,,,,,,,
+,radio,,,,,,,,,
+,radio,,,,,,,,,
+,radio,,,,,,,,,
