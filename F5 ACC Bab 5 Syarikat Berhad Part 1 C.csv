@@ -1,0 +1,5 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+Merekod Terbitan Syer dalam Jurnal Am,checkbox,Apabila syer diterbitkan 上市时怎么记录？,Debit: Permohonan Syer,Kredit: Permohonan Syer,Debit: Bank,Kredit: Bank,Debit: Modal Syer,Kredit: Modal Syer,"A,F",
+,checkbox,Apabila wang diterima dan dibankkan 上市后收到钱时怎么记录？,,,,,,,"B,C",
+,checkbox,Apabila berlaku lebihan langganan  上市后收到太多钱怎么记录？,,,,,,,"A,D",
+,,,,,,,,,,
