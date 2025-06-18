@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>纪老师好棒</title>
+  <title>纪老师最棒之做到会的网站</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; }
@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded',()=> {
         if(!chapterKey||!sectionKey||!labelKey||!sheetKey)
           return alert('Chapters.csv 列名需包含 chapter, section, label, sheet');
 
-        // 分组 & 渲染
         grouped = {};
         chapters.forEach(r=>{
           const c = r[chapterKey];
@@ -159,7 +158,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     pg.max = qs.length; pg.value = qs.length - queue.length;
   }
 
-  // 5) 渲染题目或结束
+  // 渲染下一题或结束本节
   function nextQ() {
     const qa = document.getElementById('question-area');
     qa.innerHTML=''; updateUI(0);
@@ -168,7 +167,9 @@ document.addEventListener('DOMContentLoaded',()=> {
     const q = queue.shift();
     const div = document.createElement('div');
     div.className='question';
-    div.innerHTML=`<p><strong>${q.question}</strong></p>`;
+    // 将换行替换为 <br/>
+    const safeQ = q.question.replace(/\r?\n/g, '<br/>');
+    div.innerHTML=`<p><strong>${safeQ}</strong></p>`;
 
     const opts = document.createElement('div'); opts.className='options';
     if(q.type==='text') {
@@ -229,14 +230,13 @@ document.addEventListener('DOMContentLoaded',()=> {
     qa.appendChild(div);
   }
 
-  // 6) 完成本节并上传
+  // 本节完成并上传成绩
   function finishSection() {
     document.getElementById('quiz').style.display='none';
     document.getElementById('finish').style.display='block';
     document.getElementById('finish-msg').textContent='恭喜！本节完成 🎉';
     document.getElementById('stats').textContent=
       `得分: ${score}，答对 ${correct} 题，答错 ${wrong} 题`;
-    // 上传
     const form=document.getElementById('postForm');
     form.quizId.value  = currentChapter + '_' + sectionList[secIndex][sectionKey];
     form.name.value    = user;
@@ -245,11 +245,10 @@ document.addEventListener('DOMContentLoaded',()=> {
     form.wrong.value   = wrong;
     form.time.value    = Math.floor((Date.now()-chapterStart)/1000);
     form.submit();
-    // 控制按钮
     const ctrl=document.getElementById('controls');
     ctrl.innerHTML='';
     const btn=document.createElement('button');
-    btn.textContent = (secIndex < sectionList.length-1)? '下一节':'返回章节选择';
+    btn.textContent = (secIndex < sectionList.length-1)? '下一节' : '返回章节选择';
     btn.onclick=()=>{
       document.getElementById('finish').style.display='none';
       if(secIndex < sectionList.length-1){
@@ -261,7 +260,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     ctrl.appendChild(btn);
   }
 
-  // Fisher–Yates shuffle
+  // 洗牌
   function shuffle(arr){
     for(let i=arr.length-1;i>0;i--){
       const j=Math.floor(Math.random()*(i+1));
@@ -270,9 +269,8 @@ document.addEventListener('DOMContentLoaded',()=> {
     return arr;
   }
 
-  // 不自动加载，等按开始后再调用
+  // 不自动加载章节，等按开始
 });
 </script>
-
 </body>
 </html>
