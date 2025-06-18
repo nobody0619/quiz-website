@@ -1,0 +1,50 @@
+﻿title,type,question,A,B,C,D,E,answer,image
+Potential Energy and Kinetic Energy,radio,哪个是 Gravitational potential energy / Tenaga keupayaan graviti 的formula ?,Fs,W/t,mgh,½mv²,½Fx,C,
+,radio,哪个是 Elastic potential energy / Tenaga keupayaan kenyal 的formula ?,Fs,W/t,mgh,½mv²,½Fx,E,
+,radio,哪个是 Kinetic energy / Tenaga kinetik 的formula ?,Fs,W/t,mgh,½mv²,½Fx,D,
+,radio,"What is the gravitational potential energy of a 2 kg object lifted to a height of 5 m? (Take g = 10 m/s²)
+Apakah tenaga keupayaan graviti bagi objek 2 kg yang diangkat setinggi 5 m? (g = 10 m/s²)  ",2 × 5 × 10 = 100 J,2 + 5 + 10 = 17 J,2 × 10 ÷ 5 = 4 J,5 × 10 = 50 N,,A,
+,radio,"A 1.5 kg book is on a table 0.75 m high. Calculate its GPE. (g = 10 m/s²)
+Sebuah buku berjisim 1.5 kg berada di atas meja setinggi 0.75 m. Kira tenaga keupayaan graviti buku itu. (g = 10 m/s²)  ",1.5 × 0.75 × 10 = 11.25 J,1.5 + 0.75 + 10 = 12.25 J,0.75 × 10 = 7.5 N,1.5 × 10 = 15 N,,A,
+,radio,"A 2 kg object is lifted to a height of 150 cm. What is the gravitational potential energy? (g = 10 m/s²)
+Sebuah objek 2 kg diangkat setinggi 150 cm. Apakah tenaga keupayaan graviti? (g = 10 m/s²)  ",2 × 150 × 10 = 3000 J,2 × 1.5 × 10 = 30 J,2 × 15 × 10 = 300 J,2 × 0.15 × 10 = 3 J,,B,
+,radio,"A 500 g object is raised to a height of 1.2 m. What is the gravitational potential energy? (g = 10 m/s²)
+Sebuah objek 500 g diangkat setinggi 1.2 m. Apakah tenaga keupayaan graviti? (g = 10 m/s²)  ",500 × 1.2 × 10 = 6000 J,0.5 × 1.2 × 10 = 6 J,5 × 1.2 × 10 = 60 J,50 × 1.2 × 10 = 600 J,,B,
+,radio,"A boy lifts a 3 kg bag onto a table 75 cm high. What is its GPE? (g = 10 m/s²)
+Seorang budak mengangkat beg 3 kg ke atas meja setinggi 75 cm. Apakah tenaga keupayaan graviti? (g = 10 m/s²)  ",3 × 75 × 10 = 2250 J,3 × 0.75 × 10 = 22.5 J,3 × 7.5 × 10 = 225 J,3 × 0.075 × 10 = 2.25 J,,B,
+,radio,"A cat of mass 2.5 kg jumps to a window 1.5 m above the ground. Calculate its GPE. (g = 10 m/s²)
+Seekor kucing berjisim 2.5 kg melompat ke tingkap 1.5 m tinggi dari tanah. Kira tenaga keupayaan graviti. (g = 10 m/s²)  ",2.5 × 1.5 × 10 = 37.5 J,25 × 1.5 × 10 = 375 J,2.5 + 1.5 × 10 = 17.5 J,2.5 × 15 × 10 = 375 J,,A,
+,radio,"A 2500 g box is lifted onto a shelf 60 cm high. Find its GPE. (g = 10 m/s²)
+Sebuah kotak 2500 g diangkat ke rak setinggi 60 cm. Cari tenaga keupayaan graviti. (g = 10 m/s²)  ",2.5 × 0.6 × 10 = 15 J,2500 × 60 × 10 = 1500000 J,25 × 60 × 10 = 15000 J,2.5 × 60 = 150 J,,A,
+,radio,"A coconut of mass 1.8 kg falls from a tree 250 cm tall. What was its GPE before falling? (g = 10 m/s²)
+Sebiji kelapa berjisim 1.8 kg jatuh dari pokok setinggi 250 cm. Berapakah tenaga keupayaan graviti sebelum jatuh? (g = 10 m/s²)  ",1.8 × 2.5 × 10 = 45 J,1.8 × 250 × 10 = 4500 J,1.8 × 25 × 10 = 450 J,1.8 × 0.25 × 10 = 4.5 J,,A,
+,radio,"A spring is stretched from 20 cm to 28 cm by a 400 g object. What is the elastic potential energy stored?
+Sebuah spring diregangkan dari 20 cm ke 28 cm oleh objek 400 g. Apakah tenaga keupayaan kenyal yang disimpan?  ",½ × 4 × 0.08 = 0.16 J,½ × 400 × 0.08 = 16 J,½ × 4 × 8 = 16 J,4 × 0.08 × 0.5 = 1.6 J,,A,
+,radio,"A 1.5 kg object compresses a spring from 30 cm to 20 cm. Find the elastic potential energy stored. 
+Sebuah objek 1.5 kg memampatkan spring dari 30 cm ke 20 cm. Berapakah tenaga keupayaan kenyal yang disimpan? ",½ × 15 × 0.1 = 0.75 J,½ × 1.5 × 0.1 = 0.075 J,½ × 15 × 10 = 75 J,½ × 1500 × 0.1 = 75 J,,A,
+,radio,"A spring is stretched from 12 cm to 15 cm by a 250 g mass. Calculate its EPE. (g = 10 m/s²)
+Sebuah spring diregangkan dari 12 cm ke 15 cm oleh objek 250 g. Hitung tenaga keupayaan kenyal.  ",½ × 2.5 × 0.03 = 0.0375 J,½ × 250 × 0.03 = 3.75 J,½ × 2.5 × 3 = 3.75 J,½ × 25 × 0.3 = 3.75 J,,A,
+,radio,"A force of 15 N compresses a spring by 30 cm. What is the elastic potential energy stored?
+Satu daya sebanyak 15 N memampatkan spring sejauh 30 cm. Apakah tenaga keupayaan kenyal?  ",½ × 15 × 0.3 = 2.25 J,½ × 15 × 30 = 225 J,15 × 0.3 = 4.5 J,½ × 15 × 3 = 22.5 J,,A,
+,radio,"The original length of spring T is 25 cm. When a force of 30 N is applied, the spring is compressed to 15 cm.
+Calculate the elastic potential energy stored in spring T.
+Panjang asal spring T ialah 25 cm. Apabila satu daya 30 N dikenakan, spring dimampatkan kepada 15 cm.
+Kira tenaga keupayaan kenyal yang disimpan dalam spring T.  ",½ × 30 × 0.1 = 1.5 J,30 × 0.1 = 3 J,½ × 30 × 10 = 150 J,½ × 30 × 0.01 = 0.15 J,,A,
+,radio,"Spring R has an original length of 40 cm. After a force of 50 N is applied, it is compressed to 35 cm.
+Find the elastic potential energy stored in spring R.
+Spring R mempunyai panjang asal 40 cm. Selepas satu daya 50 N dikenakan, panjangnya menjadi 35 cm.
+Kira tenaga keupayaan kenyal yang disimpan dalam spring R.  ",½ × 50 × 0.05 = 1.25 J,½ × 50 × 5 = 125 J,50 × 0.05 = 2.5 J,½ × 5 × 50 = 125 J,,A,
+,radio,"Calculate the kinetic energy of a tennis ball of mass 150 g moving at 20 m s⁻¹.
+Kira tenaga kinetik bagi sebiji bola tenis berjisim 150 g yang bergerak pada kelajuan 20 m s⁻¹.  ",½ × 0.15 × (20)² = 30 J,½ × 150 × (20)² = 30000 J,½ × 0.15 × 20 = 1.5 J,0.15 × 20² = 60 J,,A,
+,radio," A car has a mass of 1200 kg and moves at a velocity of 15 m s⁻¹.
+Calculate its kinetic energy.
+Sebuah kereta berjisim 1200 kg bergerak pada kelajuan 15 m s⁻¹.
+Kira tenaga kinetiknya.  ",½ × 1200 × (15)² = 135000 J,½ × 1200 × 15 = 9000 J,½ × 1.2 × (15)² = 135 J,½ × 120 × 15² = 13500 J,,A,
+,radio,"An insect of mass 5 g flies with a velocity of 3 m s⁻¹. What is its kinetic energy?
+Seekor serangga berjisim 5 g terbang pada kelajuan 3 m s⁻¹. Apakah tenaga kinetiknya?  ",½ × 0.005 × (3)² = 0.0225 J,½ × 5 × (3)² = 22.5 J,½ × 0.005 × 3 = 0.0075 J,0.005 × 3 × 0.5 = 0.0075 J,,A,
+,radio,"A boy throws a 600 g basketball at a speed of 12 m s⁻¹. What is the kinetic energy of the ball?
+Seorang budak membaling bola keranjang berjisim 600 g dengan halaju 12 m s⁻¹. Apakah tenaga kinetik bola tersebut?  ",½ × 0.6 × (12)² = 43.2 J,½ × 600 × (12)² = 43200 J,½ × 0.6 × 12 = 3.6 J,0.6 × 12² = 86.4 J,,A,
+,radio,"An object of 2.5 kg slides across a smooth floor at 10 m s⁻¹. Calculate its kinetic energy.
+Sebuah objek berjisim 2.5 kg meluncur atas lantai licin dengan kelajuan 10 m s⁻¹. Kira tenaga kinetiknya.  ",½ × 2.5 × (10)² = 125 J,2.5 × 10 = 25 J,½ × 2.5 × 10 = 12.5 J,2.5 × 10² = 250 J,,A,
+,radio,"A bird with mass 200 g is flying at 6 m s⁻¹. What is its kinetic energy?
+Seekor burung berjisim 200 g sedang terbang pada kelajuan 6 m s⁻¹. Apakah tenaga kinetik burung itu?  ",½ × 0.2 × (6)² = 3.6 J,½ × 200 × 6² = 3600 J,½ × 0.2 × 6 = 0.6 J,0.2 × 6² = 7.2 J,,A,
