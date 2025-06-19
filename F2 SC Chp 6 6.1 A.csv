@@ -1,0 +1,10 @@
+﻿title,type,question,A,B,C,D,E,answer,image
+Properties of Acids and Alkalis,radio,pH < 7,acid / asid,alkali,,,,A,
+,radio,pH > 7,acid / asid,alkali,,,,B,
+,radio,taste bitter / berasa pahit,acid / asid,alkali,,,,B,
+,radio,taste sour / berasa masam,acid / asid,alkali,,,,A,
+,radio,turn blue litmus paper red / menukarkan kertas litmus biru kepada merah,acid / asid,alkali,,,,A,
+,radio,turn red litmus paper blue / menukarkan kertas litmus merah kepada biru,acid / asid,alkali,,,,B,
+,radio,does not react with metals / tidak bertindak balas dengan logam,acid / asid,alkali,,,,B,
+,radio,reacts with metals to produce hydrogen gas / bertindak balas dengan logam untuk menghasilkan gas hidrogen,acid / asid,alkali,,,,A,
+,checkbox,corrosive / mengakis,acid / asid,alkali,,,,"A,B",

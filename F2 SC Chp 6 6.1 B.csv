@@ -1,0 +1,10 @@
+﻿title,type,question,A,B,C,D,E,answer,image
+Indicator / Penunjuk,radio,Universal indicator - Acid / Penunjuk semesta - Asid,Red / Merah,Green / Hijau,Blue / Biru,,,A,
+,radio,Universal indicator - Neutral / Penunjuk semesta - Neutral,Red / Merah,Green / Hijau,Blue / Biru,,,B,
+,radio,Universal indicator - Alkali / Penunjuk semesta - Alkali,Red / Merah,Green / Hijau,Blue / Biru,,,C,
+,radio,Phenolphthalein - Alkali / Fenolftalein - Alkali,Red / Merah,Colourless / Tidak berwarna,Pink / Merah jambu,,,C,
+,radio,Phenolphthalein - Neutral / Fenolftalein - Neutral,Red / Merah,Colourless / Tidak berwarna,Pink / Merah jambu,,,B,
+,radio,Phenolphthalein - Acid / Fenolftalein - Asid,Red / Merah,Colourless / Tidak berwarna,Pink / Merah jambu,,,B,
+,radio,Litmus paper - Alkali / Kertas litmus - Alkali,Red / Merah,Colourless / Tidak berwarna,Blue / Biru,,,C,
+,radio,Litmus paper - Acid / Kertas litmus - Asid,Red / Merah,Colourless / Tidak berwarna,Blue / Biru,,,A,
+,radio,哪个正确？,Acids and alkalis show their properties only in the presence of water / Asid dan alkali hanya boleh menunjukkan sifatnya dengan kehadiran air,Acids and alkalis show their properties in all liquids / Asid dan alkali menunjukkan sifat dalam semua cecair,Acids and alkalis can only show their properties when dry / Asid dan alkali boleh menunjukkan sifat walaupun dalam keadaan kering,"Acids and alkalis only react with indicators, not with water / Kehadiran udara diperlukan untuk asid dan alkali bertindak balas",,A,
