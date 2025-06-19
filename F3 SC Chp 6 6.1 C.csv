@@ -1,0 +1,5 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+AC & DC,checkbox,哪些是用 Direct Current / Arus Terus,Torchlight / Lampu suluh,Calculator / Kalkulator,Toy car / Kereta mainan,Bread toaster / Pembakar roti,Hair dryer / Pengering rambut,Air conditioner / Pendingin hawa,"A,B,C",
+,checkbox,哪些是用 Alternating Current / Arus Ulang-alik,Torchlight / Lampu suluh,Calculator / Kalkulator,Toy car / Kereta mainan,Bread toaster / Pembakar roti,Hair dryer / Pengering rambut,Air conditioner / Pendingin hawa,"D,E,F",
+,checkbox,哪些是用 Alternating Current / Arus Ulang-alik 的来源？,Solar cells / Sel suria,Accumulators / Akumulator,Batteries / Bateri,Power station / Stesen jana kuasa,Diesel generator / Penjana diesel,,"D,E",
+,checkbox,哪些是用 Direct current / Arus Terus 的来源？,Solar cells / Sel suria,Accumulators / Akumulator,Batteries / Bateri,Power station / Stesen jana kuasa,Diesel generator / Penjana diesel,,"A,B,C",

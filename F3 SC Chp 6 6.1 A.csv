@@ -1,0 +1,12 @@
+﻿title,type,question,A,B,C,D,E,F,G,H,I,J,K,,,answer,image
+Generation of Electricity,checkbox,"Renewable Energy Source /
+Sumber Tenaga Boleh Diperbaharui",Can be replaced continually / Boleh digantikan secara berterusan,Will never deplete / Tidak akan habis,Cannot be replaced / Tidak boleh diganti,Will deplete / Akan habis digunakan,,,,,,,,,,"A,B",
+,checkbox,"Non-Renewable Energy Source /
+Sumber Tenaga Tidak Boleh Diperbaharui",Can be replaced continually / Boleh digantikan secara berterusan,Will never deplete / Tidak akan habis,Cannot be replaced / Tidak boleh diganti,Will deplete / Akan habis digunakan,,,,,,,,,,"C,D",
+,radio,"cut the magnetic field lines will produce / 
+memotong garis medan magnet akan menghasilkan ",Alternating current / Arus ulang-alik,Direct current / Arus terus,Induced current / Arus aruhan,,,,,,,,,,,C,
+,checkbox,"Non-Renewable Energy Source /
+Sumber Tenaga Tidak Boleh Diperbaharui",Hydro energy / Tenaga hidro,Wave energy / Tenaga ombak,Solar energy / Tenaga solar,Tidal energy / Tenaga pasang surut,Wind energy / Tenaga angin,Biomass energy / Tenaga biojisim,Geothermal energy / Tenaga geoterma,Nuclear energy / Tenaga nuklear,Coal / Arang batu,Natural gas / Gas asli,Petroleum,,,"H,I,J,K",
+,checkbox,"Renewable Energy Source /
+Sumber Tenaga Boleh Diperbaharui",Hydro energy / Tenaga hidro,Wave energy / Tenaga ombak,Solar energy / Tenaga solar,Tidal energy / Tenaga pasang surut,Wind energy / Tenaga angin,Biomass energy / Tenaga biojisim,Geothermal energy / Tenaga geoterma,Nuclear energy / Tenaga nuklear,Coal / Arang batu,Natural gas / Gas asli,Petroleum,,,"A,B,C,D,E,F,G",
+,,,,,,,,,,,,,,,,,
