@@ -1,0 +1,22 @@
+﻿title,type,question,A,B,C,D,E,F,G,answer,image
+Convex & Concave lens / Kanta cembung & cekung,checkbox,"Convex lens / Kanta Cembung
+Object is further than 2F / Objek lebih jauh dari 2F 有什么 Characteristics / Ciri-ciri ?",Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"A,B,C",
+,checkbox,"Convex lens / Kanta Cembung
+Object is at 2F / Objek pada 2F 有什么 Characteristics / Ciri-ciri ?",Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"A,B,G",
+,checkbox,"Convex lens / Kanta Cembung
+Object is between F and 2F / Objek di antara F dengan 2F 有什么 Characteristics / Ciri-ciri ?",Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"A,B,F",
+,checkbox,"Convex lens / Kanta Cembung
+Object is at F / Objek pada F 有什么 Characteristics / Ciri-ciri ?",Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"D,E,F",
+,checkbox,"Convex lens / Kanta Cembung
+Object is between F and optical centre / Objek di antara F dengan pusat optik 有什么 Characteristics / Ciri-ciri ?",Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"D,E,F",
+,checkbox,"Convex lens / Kanta Cembung
+Object is between F and optical centre / Objek di antara F dengan pusat optik 有什么例子？",Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,F,
+,checkbox,"Convex lens / Kanta Cembung 
+Object is at F / Objek pada F 有什么例子？",Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,E,
+,checkbox,"Convex lens / Kanta Cembung 
+Object is between F and 2F / Objek di antara F dengan 2F 有什么例子？",Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,"C,D",
+,checkbox,"Convex lens / Kanta Cembung
+Object is at F / Objek pada F 有什么例子？",Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,B,
+,checkbox,"Convex lens / Kanta Cembung 
+Object is further than 2F / Objek lebih jauh dari 2F  有什么例子？",Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,A,
+,checkbox,Concave lens / Kanta Cekung 有什么例子？,Camera / Kamera,Photostat machine / Mesin fotostat,Projector / Projector,Microscope / Mikroskop,Telescope / Teleskop,Magnifying glass / Kanta pembesar,Spectacles / Cermin mata,G,

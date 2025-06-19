@@ -1,0 +1,22 @@
+﻿title,type,question,A,B,C,D,E,F,G,answer,image
+Convex & Concave lens / Kanta cembung & cekung,radio,哪个是 converging lens / kanta penumpu ?,Convex lens / Kanta cembung,Concave lens / Kanta cekung,,,,,,A,
+,radio,哪个是 diverging lens / kanta pencapah ?,Convex lens / Kanta cembung,Concave lens / Kanta cekung,,,,,,B,
+,radio,"Convex lens / Kanta Cembung 
+Object distance / Jarak objek, u > 2F (5)
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),C,
+,radio,"Convex lens / Kanta Cembung 
+Object distance / Jarak objek, u = 2F (4)
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),D,
+,radio,"Convex lens / Kanta Cembung 
+Object distance / Jarak objek, F < u < 2F (3)
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),E,
+,radio,"Convex lens / Kanta Cembung 
+Object distance / Jarak objek, u = F (2)
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),F,
+,radio,"Convex lens / Kanta Cembung 
+Object distance / Jarak objek, u < F (1)
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),G,
+,radio,"Concave lens / Kanta Cekung
+Image distance / Jarak imej, v = ?",<F (1),=F (2),F<v<2F (3),=2F (4),>2F (5),Infinity / Infiniti,> F (7),A,
+,checkbox,Image / Imej 在 Lens / Kanta 的右边，有什么 Characteristics / Ciri-ciri ?,Real / Nyata,Inverted / Songsang,Virtual / Maya,Upright / Tegak,,,,"A,B",
+,checkbox,Image / Imej 在 Lens / Kanta 的左边边，有什么 Characteristics / Ciri-ciri ?,Real / Nyata,Inverted / Songsang,Virtual / Maya,Upright / Tegak,,,,"C,D",
