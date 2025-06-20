@@ -1,0 +1,14 @@
+﻿title,type,question,A,B,C,D,E,F,G,H,I,J,K,L,M,answer,image
+Electrolytic Cell,radio,Energy change of electrolytic cell / Perubahan tenaga sel elektrolit,Chemical energy → Electrical energy / Tenaga kimia → Tenaga elektrik,Electrical energy → Chemical energy / Tenaga elektrik → Tenaga kimia,,,,,,,,,,,,B,
+,radio,"Connected to the positive terminal /
+disambungkan pada terminal positif",Anode / Anod,Cathode / Katod,,,,,,,,,,,,A,
+,radio,"Connected to the negative terminal /
+disambungkan pada terminal negatif",Anode / Anod,Cathode / Katod,,,,,,,,,,,,B,
+,radio,Cation / Kation 会被吸引去,Anode / Anod,Cathode / Katod,,,,,,,,,,,,B,
+,radio,Anion 会被吸引去,Anode / Anod,Cathode / Katod,,,,,,,,,,,,A,
+,radio,Anion,positive ions / ion bercas positif,negative ions / ion bercas negatif,,,,,,,,,,,,B,
+,radio,Cation / Kation,positive ions / ion bercas positif,negative ions / ion bercas negatif,,,,,,,,,,,,A,
+,radio,Solid state / keadaan pepejal 能导电,atom,molecule / molekul,ion,,,,,,,,,,,A,
+,checkbox,Molten state / keadaan leburan 能导电,atom,molecule / molekul,ion,,,,,,,,,,,"A,C",
+,checkbox,Electrolyte / Elektrolit,Sodium chloride solution / Larutan natrium klorida,Copper sulphate solution / Larutan kuprum sulfat,Lead nitrate solution / Larutan plumbum nitrat,Molten copper chloride / Leburan kuprum klorida,Molten lead bromide / Leburan Plumbum bromida,Nitric acid / Asid nitrik,Hydrochloric acid / Asid hidroklorik,Sulphuric acid / Asid sulfurik,Oxygen / Oksigen,Ethanol / Etanol,Glucose solution / Larutan glukosa,Naphthalene / Naftalena,Acetamide / Asetamida,"A,B,C,D,E,F,G,H",
+,checkbox,Non-Electrolyte / Bukan Elektrolit,Sodium chloride solution / Larutan natrium klorida,Copper sulphate solution / Larutan kuprum sulfat,Lead nitrate solution / Larutan plumbum nitrat,Molten copper chloride / Leburan kuprum klorida,Molten lead bromide / Leburan Plumbum bromida,Nitric acid / Asid nitrik,Hydrochloric acid / Asid hidroklorik,Sulphuric acid / Asid sulfurik,Oxygen / Oksigen,Ethanol / Etanol,Glucose solution / Larutan glukosa,Naphthalene / Naftalena,Acetamide / Asetamida,"I,J,K,L,M",

@@ -1,0 +1,9 @@
+﻿title,type,question,A,B,C,D,answer,image
+Types of Electrode,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 不一样，Anode / Anod 最后会,产生 Oxygen / Oksigen,dissolve / melarut 变 thinner / menipis,,,A,
+,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 一样，Anode / Anod 最后会,产生 Oxygen / Oksigen,dissolve / melarut 变 thinner / menipis,,,B,
+,checkbox,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 一样，Cathode / Katod 最后会,dissolve / melarut,deposited / terenap,thinner / menipis,thicker / menebal,"B,D",
+,checkbox,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 不一样，Cathode / Katod 最后会,dissolve / melarut,deposited / terenap,thinner / menipis,thicker / menebal,"B,D",
+,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 一样，Concentration of electrolyte / Kepekatan elektrolit 会,保持不变,变低,变高,,A,
+,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 不一样，Concentration of electrolyte / Kepekatan elektrolit 会,保持不变,变低,变高,,B,
+,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 不一样，Concentration of electrolyte / Kepekatan elektrolit 的颜色会,保持不变,变低,变高,,B,
+,radio,如果 Electrode / Elektrod 和 Electrolyte / Elektrolit 一样，Concentration of electrolyte / Kepekatan elektrolit 的颜色会,保持不变,变低,变高,,A,
