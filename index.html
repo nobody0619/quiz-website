@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>纪老师最棒之做到会的网站</title>
+  <title>纪老师最棒之我一定学得会</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
   <style>
     body { font-family: Arial, sans-serif; max-width:700px; margin:auto; text-align:center; }
@@ -234,7 +234,9 @@ document.addEventListener('DOMContentLoaded',()=> {
   function finishSection() {
     document.getElementById('quiz').style.display='none';
     document.getElementById('finish').style.display='block';
-    document.getElementById('finish-msg').textContent='恭喜！本节完成 🎉';
+    // 改为个性化恭喜
+    document.getElementById('finish-msg').textContent = 
+      `恭喜 ${user}，你学会这个章节了！`;
     document.getElementById('stats').textContent=
       `得分: ${score}，答对 ${correct} 题，答错 ${wrong} 题`;
     const form=document.getElementById('postForm');
@@ -248,7 +250,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     const ctrl=document.getElementById('controls');
     ctrl.innerHTML='';
     const btn=document.createElement('button');
-    btn.textContent = (secIndex < sectionList.length-1)? '下一节' : '返回章节选择';
+    btn.textContent = (secIndex < sectionList.length-1) ? '下一节' : '返回章节选择';
     btn.onclick=()=>{
       document.getElementById('finish').style.display='none';
       if(secIndex < sectionList.length-1){
@@ -269,7 +271,7 @@ document.addEventListener('DOMContentLoaded',()=> {
     return arr;
   }
 
-  // 不自动加载章节，等按开始
+  // 等待点击“开始测验”后才 loadChapters
 });
 </script>
 </body>
