@@ -1,5 +1,5 @@
 ﻿title,type,question,A,B,C,D,E,F,G,H,I,J,K,L,M,N,answer,image
-Extraction & Purification of metals,radio,哪些金属能 Extraction through electrolysis / Pengekstrakan melalui elektrolisis,Potassium / Kalium,Sodium / Natrium,Calcium / Kalsium,Magnesium,Aluminium,Zinc / Zink,Iron / Ferum,Tin / Timah,Lead / Plumbum,Copper / Kuprum,Mercury / Merkuri,Silver / Argentum,Gold / Emas,,"A,B,C,D,E",
+Extraction & Purification of metals,checkbox,哪些金属能 Extraction through electrolysis / Pengekstrakan melalui elektrolisis,Potassium / Kalium,Sodium / Natrium,Calcium / Kalsium,Magnesium,Aluminium,Zinc / Zink,Iron / Ferum,Tin / Timah,Lead / Plumbum,Copper / Kuprum,Mercury / Merkuri,Silver / Argentum,Gold / Emas,,"A,B,C,D,E",
 ,radio,Impure metal / Logam tak tulen 要当成,Anode / Anod,Cathode / Katod,,,,,,,,,,,,,A,
 ,radio,Pure metal / Logam tulen 要当成,Anode / Anod,Cathode / Katod,,,,,,,,,,,,,B,
 ,radio,如果要提取纯铜，要用哪个当 electrolyte / elektrolit ?,Silver nitrate solution / Larutan argentum nitrat,Copper sulfate solution / Larutan kuprum sulfat,Zinc Chloride solution / Larutan zink klorida,Sodium hydroxide solution / Larutan natrium hidroksida,,,,,,,,,,,B,
