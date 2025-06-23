@@ -1,0 +1,8 @@
+﻿title,type,question,A,B,C,D,E,answer,image
+关系,radio,Series circuit / Litar bersiri 的 Current / Aurs 是什么关系？,I = I1 + I2,I = I1 = I2,,,,B,
+,radio,Parallel circuit / Litar selari 的 Current / Aurs 是什么关系？,I = I1 + I3,I = I1 = I3,,,,A,
+,radio,Parallel circuit / Litar selari 的 Voltage / Voltan 是什么关系？,V = V1 = V2,V = V1 + V2,,,,A,
+,radio,Series circuit / Litar bersiri 的 Voltage / Voltan 是什么关系？,V = V1 = V3,V = V1 + V3,,,,B,
+,radio,Series circuit / Litar bersiri 的 Resistance / Rintangan 是什么关系？,R = R1 + R2,1/R = 1/R1 + 1/R2,,,,A,
+,radio,Parallel circuit / Litar selari 的 Resistance / Rintangan 是什么关系？,R = R1 + R2,1/R = 1/R1 + 1/R2,,,,B,
+,,,,,,,,,

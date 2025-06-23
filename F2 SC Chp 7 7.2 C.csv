@@ -1,0 +1,11 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+计算  V=IR,radio,"effective resistance / rintangan berkesan, R 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,3V+3V=6V,A,circuit_1.jpg
+,radio,"the voltage, V1 / voltan, V1 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,3V+3V=6V,E,circuit_1.jpg
+,radio,"the current, I in the circuit / arus, I dalam litar 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,3V+3V=6V,C,circuit_1.jpg
+,radio,"the current, I in the circuit / arus, I dalam litar 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,3A+3A=6A,F,circuit_2.jpg
+,radio,"effective resistance / rintangan berkesan, R 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,3A+3A=6A,B,circuit_2.jpg
+,radio,"the voltage / voltan, V 怎么算？",2Ω+2Ω=4Ω,1÷(1/2Ω+1/2Ω)=1Ω,6V÷4Ω=1.5A,6V×4Ω=24A,6V÷2=3V,6V,F,circuit_2.jpg
+,radio,"effective resistance / rintangan berkesan, R 怎么算？",1Ω+3Ω+5Ω=9Ω,1÷(1/1Ω + 1/3Ω + 1/5Ω) = 15/23 Ω,,,,,A,circuit_3.jpg
+,radio,"the current, I in the circuit / arus, I dalam litar 怎么算？",(9V÷1Ω) + (9÷3Ω) + (9÷5Ω) = 13.8Ω,9V÷(1Ω+3Ω+5Ω) = 1A,,,,,B,circuit_3.jpg
+,radio,"effective resistance / rintangan berkesan, R 怎么算？",3Ω+6Ω=9Ω,1÷(1/3Ω + 1/6Ω) = 2Ω,,,,,B,circuit_4.jpg
+,text,voltage / voltan 是多少？,,,,,,,"4,4V",circuit_4.jpg
