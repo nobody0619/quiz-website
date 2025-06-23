@@ -1,0 +1,11 @@
+﻿title,type,question,A,B,C,D,E,F,G,answer,image
+Human Growth Pattern,checkbox,"rate of growth is very high / rapid / 
+Kadar pertumbuhan sangat pesat",Infant / Bayi,Child / Kanak-kanak,Adolescent / Remaja,Adult / Dewasa,Aged / Tua,,,"A,C",
+,radio,Slow growth / Menjadi perlahan,Infant / Bayi,Child / Kanak-kanak,Adolescent / Remaja,Adult / Dewasa,Aged / Tua,,,B,
+,radio,"Minimal growth / Zero / 
+Pertumbuhan minimum / Sifar",Infant / Bayi,Child / Kanak-kanak,Adolescent / Remaja,Adult / Dewasa,Aged / Tua,,,D,
+,radio,Negative growth / Pertumbuhan negatif,Infant / Bayi,Child / Kanak-kanak,Adolescent / Remaja,Adult / Dewasa,Aged / Tua,,,E,
+,radio,0-3 岁 谁长得比较快？,Male / Lelaki,Female / Perempuan,Same / Sama,,,,,C,
+,radio,4-11 岁 谁长得比较快？,Male / Lelaki,Female / Perempuan,Same / Sama,,,,,A,
+,radio,11-14 岁 谁长得比较快？,Male / Lelaki,Female / Perempuan,Same / Sama,,,,,B,
+,radio,14岁后 谁长得比较快？,Male / Lelaki,Female / Perempuan,Same / Sama,,,,,A,
