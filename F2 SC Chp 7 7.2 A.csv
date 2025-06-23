@@ -5,3 +5,6 @@
 ,radio,Series circuit / Litar bersiri 的 Voltage / Voltan 是什么关系？,V = V1 = V3,V = V1 + V3,,,,B,
 ,radio,Series circuit / Litar bersiri 的 Resistance / Rintangan 是什么关系？,R = R1 + R2,1/R = 1/R1 + 1/R2,,,,A,
 ,radio,Parallel circuit / Litar selari 的 Resistance / Rintangan 是什么关系？,R = R1 + R2,1/R = 1/R1 + 1/R2,,,,B,
+,radio,V=,IxR,I÷R,R÷I,,,A,
+,radio,R=,V÷I,I÷V,VxI,,,A,
+,radio,I=,VxR,V÷R,R÷V,,,B,
