@@ -1,0 +1,7 @@
+﻿title,type,question,A,B,C,D,E,F,G,H,I,J,answer,image
+5.1 Lejar,checkbox,哪些是 Lejar Am ?,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,Akaun Belum Terima,Akaun Belum Bayar,,,"A,B,C,D,E,F",
+,checkbox,哪些是 Lejar Khas / Lejar Subsidiari ?,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,Akaun Belum Terima,Akaun Belum Bayar,,,"G,H",
+,radio,Akaun Nyata = ,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,,,,,C,
+,checkbox,Akaun Nominal = ,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,,,,,"A,B",
+,checkbox,哪些属于 debit ?,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,Akaun Belian,Akaun Jualan,Akaun Pulangan Belian,Akaun Pulangan Jualan,"A,C,F,G,J",
+,checkbox,哪些属于 kredit ?,Akaun Belanja,Akaun Hasil,Akaun Aset,Akaun Liabiliti,Akaun Modal,Akaun Ambilan,Akaun Belian,Akaun Jualan,Akaun Pulangan Belian,Akaun Pulangan Jualan,"B,D,E,H,I",
