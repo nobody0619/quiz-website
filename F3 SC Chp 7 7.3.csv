@@ -1,0 +1,14 @@
+﻿title,type,question,A,B,C,D,E,answer,image
+Principles of conservation of energy,checkbox,Energy / Tenaga,cannot be created or destroyed / tidak boleh dicipta atau dimusnah,can be created or destroyed / boleh dicipta atau dimusnah,can be converted from one form to another / boleh berubah-ubah bentuknya,cannot be converted from one form to another / tidak boleh berubah-ubah bentuknya,,"A,C",
+,checkbox,哪个位置的 Gravitational potential enery / Tenaga keupayaan graviti 是 Maximum / Maksimum ?,X,Y,Z,,,"A,C",GPE_KE_1.jpg
+,radio,哪个位置的 Gravitational potential enery / Tenaga keupayaan graviti 是 Minimum ?,X,Y,Z,,,B,GPE_KE_1.jpg
+,checkbox,哪个位置的 Kinetic energy / Tenaga kinetik 是 Zero / Sifar ?,X,Y,Z,,,"A,C",GPE_KE_1.jpg
+,radio,哪个位置的 Kinetic energy / Tenaga kinetik 是 Maximum / Maksimum ?,X,Y,Z,,,B,GPE_KE_1.jpg
+,checkbox,哪个位置是从 Kinetic energy / Tenaga kinetik 转换成  Gravitational potential enery / Tenaga keupayaan graviti ?,1,2,3,4,,"B,D",GPE_KE_1.jpg
+,checkbox,哪个位置是从 Gravitational potential enery / Tenaga keupayaan graviti 转换成 Kinetic energy / Tenaga kinetik  ?,1,2,3,4,,"A,C",GPE_KE_1.jpg
+,checkbox,哪个位置是从 Elastic potential enery / Tenaga keupayaan kenyal 转换成 Kinetic energy / Tenaga kinetik  ?,1,2,3,4,,"A,C",GPE_KE_2.jpg
+,checkbox,哪个位置是从 Kinetic energy / Tenaga kinetik 转换成 Elastic potential enery / Tenaga keupayaan kenyal ?,1,2,3,4,,"B,D",GPE_KE_2.jpg
+,radio,哪个位置的 Kinetic energy / Tenaga kinetik 是 Maximum / Maksimum ?,X,Y,Z,,,B,GPE_KE_2.jpg
+,checkbox,哪个位置的 Kinetic energy / Tenaga kinetik 是 Zero / Sifar ?,X,Y,Z,,,"A,C",GPE_KE_2.jpg
+,radio,哪个位置的 Elastic potential enery / Tenaga keupayaan kenyal 是 Minimum ?,X,Y,Z,,,B,GPE_KE_2.jpg
+,checkbox,哪个位置的 Elastic potential enery / Tenaga keupayaan kenyal 是 Maximum / Maksimum ?,X,Y,Z,,,"A,C",GPE_KE_2.jpg
