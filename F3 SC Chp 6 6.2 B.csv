@@ -1,0 +1,15 @@
+﻿title,type,question,A,B,C,answer,image
+计算题,text,"Np = 120, Ns = ?
+Vp = 240V, Vs = 40V",,,,20,transformer.jpg
+,text,"Np = ? , Ns = 10
+Vp = 240V, Vs = 5V",,,,480,transformer.jpg
+,text,"Np = 300 , Ns = 100
+Vp = 240V, Vs = ?V",,,,80,transformer.jpg
+,text,"Np = 500 , Ns = 50
+Vp = ?V, Vs = 24V",,,,240,transformer.jpg
+,text,"Np = 60, Ns = 120
+Vp = 10V, Vs = ?V",,,,20,transformer.jpg
+,text,"Np = 2400, Ns = ?
+Vp = 240V, Vs = 12V",,,,120,transformer.jpg
+,text,"Np = 720, Ns = 120
+Vp = ?V, Vs = 40V",,,,240,transformer.jpg

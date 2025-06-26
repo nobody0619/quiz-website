@@ -1,0 +1,13 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+Transformer,radio,Function of Step-up Transformer / Fungsi Transformer Injak Naik,To increase the voltage of alternating current / Untuk meningkatkan voltan arus ulang alik,To decrease the voltage of alternating current / Untuk menurunkan voltan arus ulang alik,To increase the voltage of direct current / Untuk meningkatkan voltan arus terus,To decrease the voltage of direct current / Untuk menurun voltan arus terus,,,A,
+,radio,Function of Step-down Transformer / Fungsi Transformer Injak Turun,To increase the voltage of alternating current / Untuk meningkatkan voltan arus ulang alik,To decrease the voltage of alternating current / Untuk menurunkan voltan arus ulang alik,To increase the voltage of direct current / Untuk meningkatkan voltan arus terus,To decrease the voltage of direct current / Untuk menurun voltan arus terus,,,B,
+,radio,To increase the output voltage / Untuk meningkatkan voltan keluaran,Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,A,
+,radio,To decrease the output voltage / Untuk menurun voltan keluaran,Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,B,
+,radio,"Number of turns of primary coil is less than the number of turns of secondary coil / 
+Bilangan lilitan pada gegelung primer adalah kurang daripada bilangan lilitan pada gegelung sekunder",Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,A,
+,radio,"Number of turns of primary coil is more than the number of turns of secondary coil / 
+Bilangan lilitan pada gegelung primer adalah lebih banyak daripada bilangan lilitan pada gegelung sekunder",Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,B,
+,radio,"Number of turns of secondary coil is more than the number of turns of primary coil / 
+Bilangan lilitan pada gegelung sekunder adalah lebih banyak daripada bilangan lilitan pada gegelung primer",Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,A,
+,radio,"Number of turns of secondary coil is less than the number of turns of primary coil / 
+Bilangan lilitan pada gegelung sekunder adalah kurang daripada bilangan lilitan pada gegelung primer",Step-up Transformer / Transformer Injak Naik,Step-down Transformer / Transformer Injak Turun,,,,,B,
