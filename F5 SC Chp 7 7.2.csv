@@ -1,0 +1,17 @@
+﻿title,type,question,A,B,C,D,E,F,G,answer,image
+Convex & Concave lens / Kanta cembung & cekung,checkbox,Image of objective lens / Imej kanta objek ,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"A,B,C",telescope.jpg
+,checkbox,Image of eyepiece / Imej kanta mata,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"D,E,F",telescope.jpg
+,checkbox,Final Image of telescope / Imej akhir teleskop,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"B,D,F",
+,checkbox,Final Image of microscope / Imej akhir mikroskop,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"B,D,F",
+,checkbox,Image of eyepiece / Imej kanta mata,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"D,E,F",microscope.jpg
+,checkbox,Image of objective lens / Imej kanta objek,Real / Nyata,Inverted / Songsang,Diminished / Dikecilkan,Virtual / Maya,Upright / Tegak,Magnified / Dibesarkan,Same size / Saiz sama,"A,B,F",microscope.jpg
+,radio,Convex lens / Kanta cembung 越厚，Focal length / Panjang fokus 越,长,短,,,,,,B,
+,radio,Convex lens / Kanta cembung 的 Focal length / Panjang fokus 越长，Field of vision / Medan penglihatan 越,wider / luas,narrower / sempit,,,,,,B,
+,radio,Convex lens / Kanta cembung 的 Focal length / Panjang fokus 越短，Field of vision / Medan penglihatan 越,wider / luas,narrower / sempit,,,,,,A,
+,radio,"Magnifying power of objective lens / Kuasa pembesaran kanta objek = 40 times / kali
+Magnifying power of eyepiece / Kuasa pembesaran kanta mata = 10 times / kali
+Magnifying power of microscope / Kuasa pembesaran mikroskop = ?",40 times / kali,4 times / kali,10 times / kali,400 times / kali,,,,D,
+,radio,"In normal adjustment of telescope. If the focal length of the objective is 4 cm and that of the eyepiece is 2 cm, what is the distance between the objective and the eyepiece?  / 
+Pada pelarasan normal teleskop. Jika jarak fokus objektif ialah 4 cm dan kanta mata ialah 2 cm, berapakah jarak antara objektif dan kanta mata?",2 cm,4 cm,6 cm,8 cm,,,,C,
+,radio,"In normal adjustment of a microscope, what is the distance between the objective lens and the eyepiece?  / 
+Dalam pelarasan normal mikroskop, berapakah jarak antara kanta objektif dan kanta mata?",fo - fe,fo + fe,2 fo,fo x fe,,,,B,
