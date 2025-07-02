@@ -1,0 +1,10 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+8.1 Discovery of Radioactivity,radio,发现 X-ray 的是,Wilhelm Roentgen,Henri Becquerel,Marie and Pierre Curie,Kee Ze Yong,,,A,
+,radio,发现 Radioactivity / Keradioaktifan 的是,Wilhelm Roentgen,Henri Becquerel,Marie and Pierre Curie,Kee Ze Yong,,,B,
+,radio,提炼出 Polonium 和 Radium 的是,Wilhelm Roentgen,Henri Becquerel,Marie and Pierre Curie,Kee Ze Yong,,,C,
+,radio,Henri Becquerel 用什么来产生 rays / pancaran ?,Uranium,Plutonium,Polonium,Radium,,,B,
+,checkbox,Radioactivity is / Keradioaktifan ialah,random / secara rawak,spontaneous / spontan,forced / paksa,planned / rancang,,,"A,B",
+,text,"??  is a random and spontaneous process where an unstable nucleus emits radioactive radiation until the nucleus becomes more stable / 
+??  ialah proses rawak dan spontan, iaitu nukleus yang tidak stabil memancarkan sinaran radioaktif sehingga nukleus tersebut menjadi lebih stabil",,,,,,,"radioactive decay,pereputan radioaktif",
+,radio,S.I. unit of radioactivity / Unit S.I. bagi keradioaktifan,becquerel (Bq),curie (Ci),hertz (Hz),joule (J),,,A,
+,radio,"Protactinium-234(Pa-234) 的 Half-life / Separuh Hayat 是5.2 小时，如果 original mass / jisim asal 是 80g, 20.8 小时后剩多少怎么算？",80 x ½ x ½ x ½ x ½,80 x ½ x ½ x ½,80 x ½ x ½,80 x 5.2,,,A,

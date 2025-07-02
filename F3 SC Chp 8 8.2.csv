@@ -1,0 +1,8 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+8.2 Atom and Nucleus,radio,Positively charged particle / Zarah yang bercas positif,Proton,Neutron,Electron / Elektron,Nucleus / Nukleus,,,A,
+,radio,Negatively charged particle / Zarah yang bercas negatif,Proton,Neutron,Electron / Elektron,Nucleus / Nukleus,,,C,
+,radio,Neutral particle that is not charged / Zarah neutral yang tidak bercas,Proton,Neutron,Electron / Elektron,Nucleus / Nukleus,,,B,
+,checkbox,"Number of proton is same as the number of electron /
+Bilangan proton sama dengan bilangan elektron ",Neutral,Atom,Positive ions / Ion positif,Negative ions / Ion negatif,Anion,Cation / Kation,"A,B",
+,checkbox,An atom that loses electrons / Atom yang menderma elektron,Neutral,Atom,Positive ions / Ion positif,Negative ions / Ion negatif,Anion,Cation / Kation,"C,F",
+,checkbox,An atom that gains electrons / Atom yang menerima elektron,Neutral,Atom,Positive ions / Ion positif,Negative ions / Ion negatif,Anion,Cation / Kation,"D,E",
