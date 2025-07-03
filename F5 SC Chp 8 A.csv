@@ -1,0 +1,44 @@
+﻿title,type,question,A,B,C,D,E,F,G,H,I,J,K,answer,image
+Pascal’s Principle,checkbox,"In an enclosed system, the transmission of pressure is / 
+Dalam sistem tertutup, penyebaran tekanan adalah /",uniform / secara seragam,in all direction / ke semua arah,in one direction / dalam satu arah,at the point only / di titik sahaja,,,,,,,,"A,B",
+,checkbox,"The basic principle in a hydraulic system / 
+Prinsip asas dalam sistem hidraulik",Transfer pressure in all direction / Memindahkan tekanan ke semua arah,The liquid cannot be compressed / Cecair tidak boleh dimampatkan,The liquid has no fixed shape / Cecair tidak mempunyai bentuk tetap,Transfer force in all direction / Memindahkan daya ke semua arah,The liquid can be compressed / Cecair boleh dimampatkan,Liquid takes the shape of container permanently / Cecair mengambil bentuk bekas secara kekal,,,,,,"A,B,C",
+,checkbox,有应用到 Pascal’s Principle / Prinsip Pascal 的是,Hydraulic Jack / Jek Hidraulik,Hydraulic Brake / Brek Hidraulik,Dental Chair / Kerusi Rawatan Gigi,Hydraulic Press / Penekan Hidraulik,Car Lift / Pengangkat Kereta di Bengkel,Excavator arm / Lengan Jengkaut,Aeroplane / Kapal terbang,Bunsen burner / Penunu bunsen,Helicopter / Helikopter,Drone / Dron,Safety lines near railway tracks / Garisan keselamatan di tepi landasan,"A,B,C,D,E,F",
+,radio,"Surface area of piston X = Luas omboh X = 5 cm²
+Surface area of piston Y = Luas omboh Y = 50 cm²
+Input force = Daya input = 20 N
+Output force = Daya output = ?",0.2N,2N,20N,200N,,,,,,,,D,
+,radio,"Input force = Daya input = 12 N
+Surface area of piston X = Luas omboh X = 4 cm²
+Surface area of piston Y = Luas omboh Y = 20 cm²
+
+What is the output force? / Berapakah daya output?",15N,30N,60N,80N,,,,,,,,C,
+,radio,"Output force = Daya output = 90 N
+Surface area of piston Y = Luas omboh Y = 30 cm²
+Surface area of piston X = Luas omboh X = 6 cm²
+
+What is the input force? / Berapakah daya input?",9N,12N,18N,24N,,,,,,,,C,
+,radio,"Input force = Daya input = 25 N
+Surface area of piston X = Luas omboh X = 5 cm²
+
+What is the pressure at piston X? / Berapakah tekanan di omboh X?",3 N/cm²,5 N/cm²,10 N/cm²,15 N/cm²,,,,,,,,B,
+,radio,"Input force = Daya input = 16 N
+Surface area of piston X = Luas omboh X = 4 cm²
+Surface area of piston Y = Luas omboh Y = 32 cm²
+
+What is the output force? / Berapakah daya output?",32N,64N,80N,128N,,,,,,,,B,
+,radio,"Input force = Daya input = 5 N
+Output force = Daya output = 50 N
+Surface area of piston X = Luas omboh X = 6 cm²
+
+What is the surface area of piston Y? / Berapakah luas omboh Y?",30 cm²,36 cm²,48 cm²,60 cm²,,,,,,,,A,
+,radio,"Input force = Daya input = 10 N
+Surface area of piston X = Luas omboh X = 2 cm²
+Surface area of piston Y = Luas omboh Y = 10 cm²
+
+What is the output force? / Berapakah daya output?",10N,25N,30N,50N,,,,,,,,B,
+,radio,"Input force = Daya input = 18 N
+Surface area of piston X = Luas omboh X = 3 cm²
+Output force = Daya output = 180 N
+
+What is the surface area of piston Y? / Berapakah luas omboh Y?",15 cm²,30 cm²,54 cm²,60 cm²,,,,,,,,B,

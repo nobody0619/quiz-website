@@ -1,0 +1,12 @@
+﻿title,type,question,A,B,C,D,E,F,G,H,I,J,K,answer,image
+Bernoulli’s Principle,checkbox,有应用到 Bernoulli's Principle / Prinsip Bernoulli 的是,Hydraulic Jack / Jek Hidraulik,Hydraulic Brake / Brek Hidraulik,Dental Chair / Kerusi Rawatan Gigi,Hydraulic Press / Penekan Hidraulik,Car Lift / Pengangkat Kereta di Bengkel,Excavator arm / Lengan Jengkaut,Aeroplane / Kapal terbang,Bunsen burner / Penunu bunsen,Helicopter / Helikopter,Drone / Dron,Safety lines near railway tracks / Garisan keselamatan di tepi landasan,"G,H,I,J,K",
+,radio,"根据 Bernoulli's Principle / Prinsip Bernoulli,
+Velocity / halaju 越高，pressure / tekanan 越",高,低,,,,,,,,,,B,
+,radio,"根据 Bernoulli's Principle / Prinsip Bernoulli,
+Velocity / halaju 越低，pressure / tekanan 越",高,低,,,,,,,,,,A,
+,radio,哪个水位最高？,X,Y,Z,一样,,,,,,,,D,venturi_tube_1.jpg
+,radio,那里压力最大?,X,Y,Z,一样,,,,,,,,D,venturi_tube_1.jpg
+,radio,那里压力最大?,P,Q,R,一样,,,,,,,,A,venturi_tube_2.jpg
+,radio,那里压力最小?,P,Q,R,一样,,,,,,,,B,venturi_tube_2.jpg
+,radio,哪个水位最高？,X,Y,Z,一样,,,,,,,,A,venturi_tube_2.jpg
+,radio,哪个水位最低？,X,Y,Z,一样,,,,,,,,B,venturi_tube_2.jpg
