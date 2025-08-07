@@ -1,0 +1,7 @@
+﻿title,type,question,A,B,C,D,E,F,answer,image
+Global Positioning System (GPS),checkbox,哪些是 GPS 的 Segment / Segmen ?,Control Segment / Segmen Kawalan,Space Segment / Segmen Angkasa,User Segment / Segmen Pengguna,Weather Segment / Segmen Cuaca,Power Segment / Segmen Kuasa,Timekeeping Segment / Segmen Penjaga Masa,"A,B,C",
+,radio,GPS 最少需要几颗卫星？,1,2,3,4,5,6,D,
+,checkbox,"(-25°, 98°) 是哪个方向？",East / Timur,South / Selatan,West / Barat,North / Utara,,,"A,B",
+,checkbox,"(-3°, -27°) 是哪个方向？",East / Timur,South / Selatan,West / Barat,North / Utara,,,"B,C",
+,checkbox,"(10°, 47°) 是哪个方向？",East / Timur,South / Selatan,West / Barat,North / Utara,,,"A,D",
+,checkbox,"(1°, -130°) 是哪个方向？",East / Timur,South / Selatan,West / Barat,North / Utara,,,"C,D",
